@@ -1,0 +1,162 @@
+{
+  "agent_name": "gh_agent",
+  "system_prompt": [
+    "\nYou are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.\n"
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "How to learn kafka ?",
+          "timestamp": "2026-04-06T19:58:46.243168+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:58:46.243679+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6460-4dde-764f-bcff-cabc95677c73",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "args": "{\"query\":\"learn Kafka\"}",
+          "tool_call_id": "call_WTOpOQJwnatKeAsEzdHLpmQO",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 207,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 14,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:58:48.275171+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:58:47+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRkNr8oy1wkwohK5HVmVcoG1RzKMR",
+      "finish_reason": "tool_call",
+      "run_id": "019d6460-4dde-764f-bcff-cabc95677c73",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "content": [
+            {
+              "id": "2763850d3e",
+              "question": "Python Kafka: Installing dependencies for python3 06-streaming/python/avro_example/producer.py",
+              "sort_order": 21,
+              "content": "To install the necessary dependencies for running `producer.py` in the `avro_example` directory, use the following commands:\n\n- Install `confluent-kafka`:\n  - Using pip:\n  ```bash\n  pip install confluent-kafka\n  ```\n  - Using conda:\n  ```bash\n  conda install conda-forge::python-confluent-kafka\n  ```\n\n- Install `fastavro`:\n  ```bash\n  pip install fastavro\n  ```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md"
+            },
+            {
+              "id": "cd8a62fc55",
+              "question": "Java Kafka: When running the producer/consumer/etc java scripts, no results retrieved or no message sent",
+              "sort_order": 24,
+              "content": "For example, when running `JsonConsumer.java`, you might see:\n\n```\nConsuming form kafka started\n\nRESULTS:::0\n\nRESULTS:::0\n\nRESULTS:::0\n```\n\nOr when running `JsonProducer.java`, you might encounter:\n\n```\nException in thread \"main\" java.util.concurrent.ExecutionException: org.apache.kafka.common.errors.SaslAuthenticationException: Authentication failed\n```\n\n**Solution:**\n\n1. Ensure the `StreamsConfig.BOOTSTRAP_SERVERS_CONFIG` in the scripts located at `src/main/java/org/example/` (e.g., `JsonConsumer.java`, `JsonProducer.java`) is pointing to the correct server URL (e.g., `europe-west3` vs `europe-west2`).\n\n2. Verify that the cluster key and secrets are updated in `src/main/java/org/example/Secrets.java` (`KAFKA_CLUSTER_KEY` and `KAFKA_CLUSTER_SECRET`).",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/024_cd8a62fc55_java-kafka-when-running-the-producerconsumeretc-ja.md"
+            },
+            {
+              "id": "d01cbfa9cb",
+              "question": "Java Kafka: <project_name>-1.0-SNAPSHOT.jar errors: package xxx does not exist even after gradle build",
+              "sort_order": 20,
+              "content": "In my setup, all of the dependencies listed in `build.gradle` were not installed in `<project_name>-1.0-SNAPSHOT.jar`.\n\nSolution:\n\n1. In the `build.gradle` file, add the following at the end:\n   \n   ```groovy\n   shadowJar {\n       archiveBaseName = \"java-kafka-rides\"\n       archiveClassifier = ''\n   }\n   ```\n\n2. In the command line, run:\n   \n   ```bash\n   gradle shadowjar\n   ```\n\n3. Execute the script from `java-kafka-rides-1.0-SNAPSHOT.jar` created by the shadowjar.",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/020_d01cbfa9cb_java-kafka-project_name-10-snapshotjar-errors-pack.md"
+            },
+            {
+              "id": "cef28035ac",
+              "question": "How do you manually manage offsets in a Kafka consumer?",
+              "sort_order": 29,
+              "content": "Kafka allows you to manually control when message offsets are committed. This is useful when you want to **commit offsets only after successful message processing**, ensuring reliable processing.\n\n**Step 1: Disable Auto Commit**\n\n```python\nconsumer = KafkaConsumer(\n    'taxi-trips',\n    bootstrap_servers=['localhost:9092'],\n    enable_auto_commit=False  # Manual commit\n)\n```\n\nSetting `enable_auto_commit=False` prevents Kafka from automatically committing offsets.\n\n**Step 2: Process Messages and Commit Manually**\n\n```python\nfor message in consumer:\n    try:\n        # Process the message\n        process_trip(message.value)\n        # Commit offset after successful processing\n        consumer.commit()\n    except Exception as e:\n        print(f\"Error: {e}\")\n        # Do not commit on failure \u2192 message will be reprocessed\n```\n\nOffsets are committed **only after** the message is successfully processed. If an error occurs, the offset is not committed, so the message can be consumed again.",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/029_cef28035ac_manual-offset-management-kafka-consumer.md"
+            },
+            {
+              "id": "5ca6890c1a",
+              "question": "Java Kafka: How to run producer/consumer/kstreams/etc in terminal",
+              "sort_order": 23,
+              "content": "In the project directory, run:\n\n```bash\njava -cp build/libs/<jar_name>-1.0-SNAPSHOT.jar:out src/main/java/org/example/JsonProducer.java\n```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/023_5ca6890c1a_java-kafka-how-to-run-producerconsumerkstreamsetc.md"
+            }
+          ],
+          "tool_call_id": "call_WTOpOQJwnatKeAsEzdHLpmQO",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:58:48.283345+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:58:48.283782+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6460-4dde-764f-bcff-cabc95677c73",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To learn Kafka, I recommend following these steps:\n\n1. **Understand the Basics**: Start with the fundamental concepts of Kafka, such as producers, consumers, topics, and brokers. Familiarize yourself with the architecture and how Kafka works.\n\n2. **Set Up Your Environment**: Install Kafka on your local machine. You can find instructions to set it up for different programming languages in the course materials. For instance, for Python, you can install dependencies required for Kafka using:\n   ```bash\n   pip install confluent-kafka\n   pip install fastavro\n   ```\n   [Learn more about installing dependencies](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md).\n\n3. **Hands-On Practice**: Write some basic producer and consumer applications to send and receive messages. You can refer to examples in the documentation or create your own simple scripts.\n\n4. **Explore Offset Management**: Learn about managing offsets in Kafka consumers. You can implement manual offset management to ensure messages are processed reliably:\n   ```python\n   consumer = KafkaConsumer(\n       'your_topic',\n       bootstrap_servers=['localhost:9092'],\n       enable_auto_commit=False\n   )\n   \n   for message in consumer:\n       process_message(message.value)\n       consumer.commit()  # Commit after processing\n   ```\n   [See detailed guidance on manual offset management](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/029_cef28035ac_manual-offset-management-kafka-consumer.md).\n\n5. **Experiment with Advanced Features**: Once you are comfortable with the basics, try out more advanced features like Kafka Streams or Schema Registry. There are numerous resources and tutorials online that can guide you through these topics.\n\n6. **Join the Community and Use Documentation**: Engage with the Kafka community through forums and GitHub, and always reference the official [Kafka documentation](https://kafka.apache.org/documentation/) for updates and in-depth explanations.\n\n7. **Build Projects**: Implement projects using Kafka to solidify your understanding and get real-world experience.\n\nBy following these suggestions, you can build a solid foundation in Kafka.",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1329,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 470,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:58:57.030860+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:58:48+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRkNsb1N40K6JMFp713JJr5w03hLC",
+      "finish_reason": "stop",
+      "run_id": "019d6460-4dde-764f-bcff-cabc95677c73",
+      "metadata": null
+    }
+  ],
+  "source": "user"
+}

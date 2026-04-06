@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What steps should I follow to create a custom Docker image with uv pre-installed for Kestra?",
+          "timestamp": "2026-04-06T19:26:07.257266+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:07.257964+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-6997-776e-9ab6-623ca2503e92",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"custom Docker image with uv pre-installed for Kestra\"}",
+          "tool_call_id": "call_5OydeqmtuR8Cr9jVKzWOwAj7",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 230,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 23,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:26:08.534170+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:26:07+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjsFWUbk1Gv9V9A4dXuTemPHodet",
+      "finish_reason": "tool_call",
+      "run_id": "019d6442-6997-776e-9ab6-623ca2503e92",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "13c4d27a91",
+              "question": "How can I run UV in Kestra without installing it on every flow execution?",
+              "sort_order": 15,
+              "content": "To avoid reinstalling `uv` on each flow run, you can create a custom Docker image based on the official Kestra image with `uv` pre-installed. Here's how:\n\n1. **Create a Dockerfile (e.g., Dockerfile) with the following content:**\n\n   ```dockerfile\n   # Use the official Kestra image as a base\n   FROM kestra/kestra\n   \n   # Install uv\n   RUN pip install uv\n   ```\n\n2. **Update your `docker-compose.yml` to build this custom image instead of pulling the default one:**\n\n   ```yaml\n   services:\n     kestra:\n       build:\n         context: .\n         dockerfile: Dockerfile\n       image: custom-kestra\n   ```\n\nThis approach ensures that `uv` is available in the container at runtime without requiring installation during each flow execution.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/project/015_13c4d27a91_how-can-i-run-uv-in-kestra-without-installing-it-o.md"
+            },
+            {
+              "id": "5db9bca6a9",
+              "question": "Getting SIGILL in JRE when running latest kestra image on Mac M4 MacOS 15.2/3",
+              "sort_order": 13,
+              "content": "SIGILL in Java Runtime Environment on MacOS M4\n\nAdd the following environment variable to your Kestra container: `-e JAVA_OPTS=\"-XX:UseSVE=0\"`:\n\n```bash\ndocker run --rm -it \\\n  --pull=always \\\n  -p 8080:8080 \\\n  --user=root \\\n  -e JAVA_OPTS=\"-XX:UseSVE=0\" \\\n  -v /var/run/docker.sock:/var/run/docker.sock \\\n  -v /tmp:/tmp \\\n  kestra/kestra:latest server local\n```\nThe same in a Docker Compose file:\n\n```yaml\nservices:\n  kestra:\n    image: kestra/kestra:latest\n    environment:\n      JAVA_OPTS: \"-XX:UseSVE=0\"\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/013_5db9bca6a9_getting-sigill-in-jre-when-running-latest-kestra-i.md"
+            },
+            {
+              "id": "94ccf8c158",
+              "question": "Docker: Could not start docker image \"control-center\" from the docker-compose.yaml file.",
+              "sort_order": 2,
+              "content": "Check Docker Compose File:\n\nEnsure that your `docker-compose.yaml` file is correctly configured with the necessary details for the \"control-center\" service. Check the service name, image name, ports, volumes, environment variables, and any other configurations required for the container to start.\n\nOn Mac OSX 12.2.1 (Monterey), if you encounter this issue, try the following:\n\n- Open Docker Desktop and check for any images still running from previous sessions.\n- If there are images still running and they do not appear with the `docker ps` command, they may need to be deleted directly from Docker Desktop.\n- Once those images are removed, try starting the Kafka environment again.\n\nThis approach resolved the issue on Mac OSX 12.2.1 for a similar setup.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-7/002_94ccf8c158_docker-could-not-start-docker-image-control-center.md"
+            },
+            {
+              "id": "733065c175",
+              "question": "Why does Kestra need access to the Docker socket?",
+              "sort_order": 60,
+              "content": "Kestra runs many tasks inside Docker containers, and Kestra itself is responsible for starting those containers when needed. To do this, Kestra needs access to the host Docker daemon, which is exposed via the Docker socket at /var/run/docker.sock. In the official Docker Compose setup for Kestra, the container runs as root and mounts /var/run/docker.sock:/var/run/docker.sock, because the Docker Compose implementation requires root privileges to access the socket. This configuration is intended for development purposes.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/023_733065c175_why-kestra-docker-socket.md"
+            },
+            {
+              "id": "bcc6781b6e",
+              "question": "How do I launch Kestra?",
+              "sort_order": 3,
+              "content": "To launch Kestra, follow these instructions:\n\n### For Linux\n\nStart Docker with the following command:\n\n```bash\ndocker run \\\n  --pull=always \\\n  --rm \\\n  -it \\\n  -p 8080:8080 \\\n  --user=root \\\n  -v /var/run/docker.sock:/var/run/docker.sock \\\n  -v /tmp:/tmp \\\n  kestra/kestra:latest server local\n```\n\nOnce it is running, you can log in to the dashboard at `localhost:8080`.\n\n### For Windows\n\nRefer to the Kestra GitHub repository for detailed instructions: [https://github.com/kestra-io/kestra](https://github.com/kestra-io/kestra)\n\n\nSample `docker-compose` for Kestra:\n\n```yaml\nkestra:\n  build: .\n  image: kestra/kestra:latest\n  container_name: kestra\n  user: \"0:0\"\n  environment:\n    DOCKER_HOST: tcp://host.docker.internal:2375  # for Windows\n    KESTRA_CONFIGURATION: |\n      kestra:\n        repository:\n          type: h2\n        queue:\n          type: memory\n        storage:\n          type: local\n          local:\n            basePath: /app/storage\n        tasks:\n          tmp-dir:\n            path: /app/tmp\n        plugins:\n          repositories:\n            - id: central\n              type: maven\n              url: [repo.maven.apache.org](https://repo.maven.apache.org/maven2)\n          definitions:\n            - io.kestra.plugin.core:core:latest\n            - io.kestra.plugin.scripts:python:1.3.4\n            - io.kestra.plugin.http:http:latest\n    KESTRA_TASKS_TMP_DIR_PATH: /app/tmp\n  ports:\n    - \"8080:8080\"\n  volumes:\n    - //var/run/docker.sock:/var/run/docker.sock  # Windows path\n    - /yourpath/.dbt:/app/.dbt\n    - /yourpath/kestra/plugins:/app/plugins\n    - /yourpath/kestra/workflows:/app/workflows\n    - /yourpath/kestra/storage:/app/storage\n    - /yourpath//kestra/tmp:/app/tmp\n    - /yourpath//dbt_prj:/app/workflows/dbt_project\n    - /yourpath//my-creds.json:/app/.dbt/my-creds.json\n  command: server standalone\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/003_bcc6781b6e_how-do-i-launch-kestra.md"
+            }
+          ],
+          "tool_call_id": "call_5OydeqmtuR8Cr9jVKzWOwAj7",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:26:08.545337+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:08.545778+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-6997-776e-9ab6-623ca2503e92",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To create a custom Docker image with `uv` pre-installed for Kestra, follow these steps:\n\n1. **Create a Dockerfile**: Create a file named `Dockerfile` with the following content to use the official Kestra image as a base and install `uv`:\n\n   ```dockerfile\n   # Use the official Kestra image as a base\n   FROM kestra/kestra\n   \n   # Install uv\n   RUN pip install uv\n   ```\n\n2. **Update your `docker-compose.yml`**: Modify your `docker-compose.yml` to build this custom image instead of using the default one. Here\u2019s an example configuration:\n\n   ```yaml\n   services:\n     kestra:\n       build:\n         context: .\n         dockerfile: Dockerfile\n       image: custom-kestra\n   ```\n\nThis ensures that `uv` is available in your Kestra container at runtime without needing to install it on each flow execution.\n\nFor further reading, see the relevant section from the FAQ: [How can I run UV in Kestra without installing it on every flow execution?](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/project/015_13c4d27a91_how-can-i-run-uv-in-kestra-without-installing-it-o.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1840,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 275,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:26:14.734920+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:26:09+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjsHzDhaQxJbJjh4mq1uquW7hDTH",
+      "finish_reason": "stop",
+      "run_id": "019d6442-6997-776e-9ab6-623ca2503e92",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

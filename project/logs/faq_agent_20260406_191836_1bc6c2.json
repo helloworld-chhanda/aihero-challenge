@@ -1,0 +1,147 @@
+{
+  "agent_name": "faq_agent",
+  "system_prompt": [
+    "\nYou are a helpful assistant for a course. \n\nAlways search for relevant information before answering. \nIf the first search doesn't give you enough information, try different search terms.\n\nMake multiple searches if needed to provide comprehensive answers.\n"
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "tell me where can I join?",
+          "timestamp": "2026-04-06T19:18:28.850837+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:18:28.851384+00:00",
+      "instructions": "You are a helpful assistant for a course. \n\nAlways search for relevant information before answering. \nIf the first search doesn't give you enough information, try different search terms.\n\nMake multiple searches if needed to provide comprehensive answers.",
+      "kind": "request",
+      "run_id": "019d643b-6ae5-73f7-bc47-c4ab16445bca",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"where can I join\"}",
+          "tool_call_id": "call_4OxmC5Y8P8YHciX4AbshED2K",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 142,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 17,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:18:30.680846+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:18:30+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjksosENulsLnvwk8bjqQuIVrfvR",
+      "finish_reason": "tool_call",
+      "run_id": "019d643b-6ae5-73f7-bc47-c4ab16445bca",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "content": "# SQL Refresher\n\n**[\u2191 Up](README.md)** | **[\u2190 Previous](09-docker-compose.md)** | **[Next \u2192](11-cleanup.md)**\n\n[![](https://markdown-videos-api.jorgenkh.no/youtube/QEcps_iskgg)](https://youtu.be/QEcps_iskgg&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=10)\n\nPre-Requisites: If you followed the course in the given order, Docker Compose should already be running with pgdatabase and pgAdmin.\n\nOnce done, you can go to http://localhost:8085/browser/ to access pgAdmin.\nDon't forget to Right Click on the server or database to refresh it in case you don't see the new table.\n\nNow start querying!\n\n## Inner Joins\n\n### Implicit INNER JOIN\n\nJoining Yellow Taxi table with Zones Lookup table (implicit INNER JOIN):\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    CONCAT(zpu.\"Borough\", ' | ', zpu.\"Zone\") AS \"pickup_loc\",\n    CONCAT(zdo.\"Borough\", ' | ', zdo.\"Zone\") AS \"dropoff_loc\"\nFROM\n    yellow_taxi_trips t,\n    zones zpu,\n    zones zdo\nWHERE\n    t.\"PULocationID\" = zpu.\"LocationID\"\n    AND t.\"DOLocationID\" = zdo.\"LocationID\"\nLIMIT 100;\n```\n\n### Explicit INNER JOIN\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    CONCAT(zpu.\"Borough\", ' | ', zpu.\"Zone\") AS \"pickup_loc\",\n    CONCAT(zdo.\"Borough\", ' | ', zdo.\"Zone\") AS \"dropoff_loc\"\nFROM\n    yellow_taxi_trips t\nJOIN\n-- or INNER JOIN but it's less used, when writing JOIN, postgreSQL understands implicitly that we want to use an INNER JOIN\n    zones zpu ON t.\"PULocationID\" = zpu.\"LocationID\"\nJOIN\n    zones zdo ON t.\"DOLocationID\" = zdo.\"LocationID\"\nLIMIT 100;\n```\n\n## Data Quality Checks\n\n### Checking for NULL Location IDs\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    \"PULocationID\",\n    \"DOLocationID\"\nFROM\n    yellow_taxi_trips\nWHERE\n    \"PULocationID\" IS NULL\n    OR \"DOLocationID\" IS NULL\nLIMIT 100;\n```\n\n### Checking for Location IDs NOT IN Zones Table\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    \"PULocationID\",\n    \"DOLocationID\"\nFROM\n    yellow_taxi_trips\nWHERE\n    \"DOLocationID\" NOT IN (SELECT \"LocationID\" from zones)\n    OR \"PULocationID\" NOT IN (SELECT \"LocationID\" from zones)\nLIMIT 100;\n```\n\n## LEFT, RIGHT, and OUTER JOINS\n\nUsing LEFT, RIGHT, and OUTER JOINS when some Location IDs are not in either Tables:\n\n```sql\nDELETE FROM zones WHERE \"LocationID\" = 142;\n\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    CONCAT(zpu.\"Borough\", ' | ', zpu.\"Zone\") AS \"pickup_loc\",\n    CONCAT(zdo.\"Borough\", ' | ', zdo.\"Zone\") AS \"dropoff_loc\"\nFROM\n    yellow_taxi_trips t\nLEFT JOIN\n    zones zpu ON t.\"PULocationID\" = zpu.\"LocationID\"\nJOIN\n    zones zdo ON t.\"DOLocationID\" = zdo.\"LocationID\"\nLIMIT 100;\n```\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    CONCAT(zpu.\"Borough\", ' | ', zpu.\"Zone\") AS \"pickup_loc\",\n    CONCAT(zdo.\"Borough\", ' | ', zdo.\"Zone\") AS \"dropoff_loc\"\nFROM\n    yellow_taxi_trips t\nRIGHT JOIN\n    zones zpu ON t.\"PULocationID\" = zpu.\"LocationID\"\nJOIN\n    zones zdo ON t.\"DOLocationID\" = zdo.\"LocationID\"\nLIMIT 100;\n```\n\n```sql\nSELECT\n    tpep_pickup_datetime,\n    tpep_dropoff_datetime,\n    total_amount,\n    CONCAT(zpu.\"Borough\", ' | ', zpu.\"Zone\") AS \"pickup_loc\",\n    CONCAT(zdo.\"Borough\", ' | ', zdo.\"Zone\") AS \"dropoff_loc\"\nFROM\n    yellow_taxi_trips t\nOUTER JOIN\n    zones zpu ON t.\"PULocationID\" = zpu.\"LocationID\"\nJOIN\n    zones zdo ON t.\"DOLocationID\" = zdo.\"LocationID\"\nLIMIT 100;\n```\n\n## GROUP BY\n\n### Calculate Number of Trips Per Day\n\n```sql\nSELECT\n    CAST(tpep_dropoff_datetime AS DATE) AS \"day\",\n    COUNT(1)\nFROM\n    yellow_taxi_trips\nGROUP BY\n    CAST(tpep_dropoff_datetime AS DATE)\nLIMIT 100;\n```\n\n## ORDER BY\n\n### Ordering by Day\n\n```sql\nSELECT\n    CAST(tpep_dropoff_datetime AS DATE) AS \"day\",\n    COUNT(1)\nFROM\n    yellow_taxi_trips\nGROUP BY\n    CAST(tpep_dropoff_datetime AS DATE)\nORDER BY\n    \"day\" ASC\nLIMIT 100;\n```\n\n### Ordering by Count\n\n```sql\nSELECT\n    CAST(tpep_dropoff_datetime AS DATE) AS \"day\",\n    COUNT(1) AS \"count\"\nFROM\n    yellow_taxi_trips\nGROUP BY\n    CAST(tpep_dropoff_datetime AS DATE)\nORDER BY\n    \"count\" DESC\nLIMIT 100;\n```\n\n## Other Aggregations\n\n```sql\nSELECT\n    CAST(tpep_dropoff_datetime AS DATE) AS \"day\",\n    COUNT(1) AS \"count\",\n    MAX(total_amount) AS \"total_amount\",\n    MAX(passenger_count) AS \"passenger_count\"\nFROM\n    yellow_taxi_trips\nGROUP BY\n    CAST(tpep_dropoff_datetime AS DATE)\nORDER BY\n    \"count\" DESC\nLIMIT 100;\n```\n\n## Grouping by Multiple Fields\n\n```sql\nSELECT\n    CAST(tpep_dropoff_datetime AS DATE) AS \"day\",\n    \"DOLocationID\",\n    COUNT(1) AS \"count\",\n    MAX(total_amount) AS \"total_amount\",\n    MAX(passenger_count) AS \"passenger_count\"\nFROM\n    yellow_taxi_trips\nGROUP BY\n    1, 2\nORDER BY\n    \"day\" ASC,\n    \"DOLocationID\" ASC\nLIMIT 100;\n```\n\n**[\u2191 Up](README.md)** | **[\u2190 Previous](09-docker-compose.md)** | **[Next \u2192](11-cleanup.md)**",
+              "filename": "data-engineering-zoomcamp-main/01-docker-terraform/docker-sql/10-sql-refresher.md"
+            },
+            {
+              "content": "## Thank you!\n\nThanks for signing up for the course.\n\nThe process of adding you to the mailing list is not automated yet, \nbut you will hear from us closer to the course start. \n\nTo make sure you don't miss any announcements\n\n- Register in [DataTalks.Club's Slack](https://datatalks.club/slack.html) and\n  join the [`#course-data-engineering`](https://app.slack.com/client/T01ATQK62F8/C01FABYF2RG) channel\n- Join the [course Telegram channel with announcements](https://t.me/dezoomcamp)\n- Subscribe to [DataTalks.Club's YouTube channel](https://www.youtube.com/c/DataTalksClub) and check \n  [the course playlist](https://www.youtube.com/playlist?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)\n\nSee you in January!",
+              "filename": "data-engineering-zoomcamp-main/after-sign-up.md"
+            },
+            {
+              "content": "## Week 5 Homework\n\nIn this homework we'll put what we learned about Spark\nin practice.\n\nWe'll use high volume for-hire vehicles (HVFHV) dataset for that.\n\n## Question 1. Install Spark and PySpark\n\n* Install Spark\n* Run PySpark\n* Create a local spark session \n* Execute `spark.version`\n\nWhat's the output?\n\n\n## Question 2. HVFHW February 2021\n\nDownload the HVFHV data for february 2021:\n\n```bash\nwget https://nyc-tlc.s3.amazonaws.com/trip+data/fhvhv_tripdata_2021-02.csv\n```\n\nRead it with Spark using the same schema as we did \nin the lessons. We will use this dataset for all\nthe remaining questions.\n\nRepartition it to 24 partitions and save it to\nparquet.\n\nWhat's the size of the folder with results (in MB)?\n\n\n## Question 3. Count records \n\nHow many taxi trips were there on February 15?\n\nConsider only trips that started on February 15.\n\n\n## Question 4. Longest trip for each day\n\nNow calculate the duration for each trip.\n\nTrip starting on which day was the longest? \n\n\n## Question 5. Most frequent `dispatching_base_num`\n\nNow find the most frequently occurring `dispatching_base_num` \nin this dataset.\n\nHow many stages this spark job has?\n\n> Note: the answer may depend on how you write the query,\n> so there are multiple correct answers. \n> Select the one you have.\n\n\n## Question 6. Most common locations pair\n\nFind the most common pickup-dropoff pair. \n\nFor example:\n\n\"Jamaica Bay / Clinton East\"\n\nEnter two zone names separated by a slash\n\nIf any of the zone names are unknown (missing), use \"Unknown\". For example, \"Unknown / Clinton East\". \n\n\n## Bonus question. Join type\n\n(not graded) \n\nFor finding the answer to Q6, you'll need to perform a join.\n\nWhat type of join is it?\n\nAnd how many stages your spark job has?\n\n\n## Submitting the solutions\n\n* Form for submitting: https://forms.gle/dBkVK9yT8cSMDwuw7\n* You can submit your homework multiple times. In this case, only the last submission will be used. \n\nDeadline: 07 March (Monday), 22:00 CET",
+              "filename": "data-engineering-zoomcamp-main/cohorts/2022/week_5_batch_processing/homework.md"
+            },
+            {
+              "content": "## Question 1. Knowing docker tags\n```\n\u276f docker run --help | grep \"Automatically remove\"\n--rm                               Automatically remove\n```\n\n- `|` pipe operator redirects the previous command output as an input to the command after the operator\n- `docker run --help` -----> outputs `|` ---------> inputs to `grep \"Automatically remove\"`\n- `grep` allows you to search through text\n  \nAnswer: `--rm`\n\n\n## Question 2. Understanding docker first run\n\n- Run python:3.9 image with `docker run -it python:3.9 bash`\n- Since you opened with `it` tag, the container will be interactive`\n- Since the docker command ends with `bash`, the entrypoint into the container will be `bash`\n\n```shell\nroot@root: docker run -it python:3.9 bash\nroot@b67c6949422a:/# pip list\nPackage    Version\n---------- -------\npip        23.0.1\nsetuptools 58.1.0\nwheel      0.45.1\n```\n\nSince it's been a while since 2024 cohort, your wheel version might differ and may not be in the options provided.\n\nAnswer: For me it was `0.45.1`\n\n\n## Question 3. Count records\n\n- Trips that started and finished on 2019-09-18\n- Format timestamp(date and hour+min+sec) to date.\n\n```sql\nSELECT COUNT(*) FROM \"csv_green_tripdata_2019_09\"\nWHERE DATE(\"lpep_pickup_datetime\") = '2019-09-18' AND\n      DATE(\"lpep_dropoff_datetime\") = '2019-09-18';\n```\n```\n+-------+\n| count |\n|-------|\n| 15612 |\n+-------+\n```\n\nAnswer: `15612`\n\n\n## Question 4. Longest trip for each day\n```sql\nSELECT\n    DATE(\"lpep_pickup_datetime\") AS \"pickup_date\",\n    MAX(\"trip_distance\") AS \"longest_trip\"\nFROM\n    \"csv_green_tripdata_2019_09\"\nGROUP BY\n    DATE(\"lpep_pickup_datetime\")\nORDER BY\n    \"longest_trip\" DESC\nLIMIT 1;\n```\n```\n+-------------+--------------+\n| pickup_date | longest_trip |\n|-------------+--------------|\n| 2019-09-26  | 341.64       |\n+-------------+--------------+\n```\n\nAnswer: `2019-09-26`\n\n\n## Question 5. Three biggest pickup zones\n```sql\nSELECT\n    \"zone\".\"Zone\",\n    ROUND(SUM((\"total_amount\")::NUMERIC), 3) AS \"total_amount\"\nFROM\n    \"csv_green_tripdata_2019_09\"\nINNER JOIN\n    \"zone\" ON \"csv_green_tripdata_2019_09\".\"PULocationID\" = \"zone\".\"LocationID\"\nWHERE\n    DATE(\"lpep_pickup_datetime\") = '2019-09-18'\nGROUP BY\n    \"zone\".\"Zone\"\nORDER BY\n    \"total_amount\" DESC\nLIMIT 3;\n```\n```\n+---------------------+--------------+\n| Zone                | total_amount |\n|---------------------+--------------|\n| East Harlem North   | 17893.060    |\n| East Harlem South   | 17152.160    |\n| Morningside Heights | 11259.680    |\n+---------------------+--------------+\n```\n\nAnswer: `East Harlem North, East Harlem South, Morningside Heights`\n\n\n## Question 6. Largest tip\n```sql\nSELECT\n    puz.\"Zone\" AS pickup_zone,\n    doz.\"Zone\" AS dropoff_zone,\n    g.\"tip_amount\"\nFROM\n    \"csv_green_tripdata_2019_09\" g\nINNER JOIN\n    \"zone\" puz ON g.\"PULocationID\" = puz.\"LocationID\"\nINNER JOIN\n    \"zone\" doz ON g.\"DOLocationID\" = doz.\"LocationID\"\nWHERE\n    puz.\"Zone\" = 'Astoria'\nORDER BY\n    g.\"tip_amount\" DESC\nLIMIT 1;\n```\n\n```\n+-------------+--------------+------------+\n| pickup_zone | dropoff_zone | tip_amount |\n|-------------+--------------+------------|\n| Astoria     | JFK Airport  | 62.31      |\n+-------------+--------------+------------+\n```\n\nAnswer: `JFK Airport`\n\n\n## Question 7. Terraform Workflow\n\n> self-explanatory",
+              "filename": "data-engineering-zoomcamp-main/cohorts/2024/01-docker-terraform/solutions.md"
+            },
+            {
+              "content": "# DE Zoomcamp 4.5.1 \u2014 Documentation\n\n> \ud83d\udcc4 Video: [Documentation](https://www.youtube.com/watch?v=UqoWyMjcqrA)  \n> \ud83d\udcc4 Official docs: [Documentation](https://docs.getdbt.com/docs/build/documentation)  \n> \ud83d\udcc4 Model properties: [Model properties](https://docs.getdbt.com/reference/model-properties)\n\nThe models are built. Now it's time to make sure other people can actually understand what they do. This video covers how dbt's documentation system works \u2014 what you write, where you write it, and what dbt does with it.\n\n---\n\n## Where documentation lives \u2014 YAML files\n\nYou've already seen YAML files in the context of sources. But they do more than just declare where raw data lives \u2014 they're also the **primary place to document your entire project**.\n\nThe most common convention is to have a single file called `schema.yml` per directory. Some teams prefer **one YAML file per model** \u2014 that's fine too, it keeps things from getting unwieldy when projects get large. For this course we stick with `schema.yml`.\n\n> \ud83d\udcc4 [Model properties \u2014 full reference](https://docs.getdbt.com/reference/model-properties)\n\n---\n\n## What you can document\n\nAlmost everything in dbt can be documented. The structure is the same pattern regardless of what you're documenting:\n\n### Sources\n\nYou already have a `sources.yml` \u2014 you can add descriptions to the source itself and to each table inside it.\n\n```yaml\nversion: 2\n\nsources:\n  - name: staging\n    description: >\n      Raw NYC taxi trip data loaded from BigQuery external tables.\n      Contains both yellow and green taxi trip records for 2019-2020.\n    database: production\n    schema: trips_data_all\n    \n    tables:\n      - name: green_tripdata\n        description: >\n          Green taxi trip records. Green taxis operate primarily in\n          outer boroughs (outside Manhattan).\n          \n      - name: yellow_tripdata\n        description: Yellow taxi trips, primarily from Manhattan\n```\n\n### Models\n\nIn `schema.yml`, you switch from `sources:` to `models:`. Same idea \u2014 give each model a name and a description, then drill down into columns.\n\n```yaml\nversion: 2\n\nmodels:\n  - name: dim_zones\n    description: >\n      Zone lookup table containing LocationID, borough, zone name and service zone.\n      One row per taxi zone in NYC.\n    columns:\n      - name: locationid\n        description: Primary key for taxi zones\n        tests:\n          - unique\n          - not_null\n      \n      - name: borough\n        description: NYC borough name (Manhattan, Queens, Brooklyn, Bronx, Staten Island, EWR)\n      \n      - name: zone\n        description: Taxi zone name/neighborhood\n      \n      - name: service_zone\n        description: Service zone type (Yellow, Green, or Airports)\n```\n\n### Columns\nUnder each model, you can list every column with:\n- **name** \u2014 must match the actual column name\n- **description** \u2014 what it means\n- **data_type** \u2014 what type it should be (informational, not enforced)\n- **tests** \u2014 we'll cover these in the next video, but the slot is here\n- **meta** \u2014 custom key-value tags (more on this below)\n\n### Macros and seeds\nYou can document these too, using the same YAML pattern. Same `version: 2` header, just different top-level keys.\n\n---\n\n## Multi-line descriptions\n\nIf you need more than one line for a description, use the YAML **pipe operator** (`|`) or **greater-than operator** (`>`). Everything indented under it becomes part of the description. The `>` folds newlines into spaces, while `|` preserves them.\n\n```yaml\nversion: 2\n\nmodels:\n  - name: fct_trips\n    description: |\n      Fact table containing all taxi trips from both yellow and green taxis.\n      \n      This is the core analytical table for trip-level analysis.\n      Each row represents a single trip with:\n      - Trip identifiers and service type\n      - Pickup and dropoff locations and timestamps\n      - Trip details (distance, passenger count, etc.)\n      - Payment information and amounts\n      \n      Data is filtered for 2019-2020 only and excludes records\n      with unknown pickup or dropoff locations.\n```\n\n---\n\n## Meta tags \u2014 custom metadata\n\nThe `meta` field lets you attach arbitrary key-value pairs to any column or model. There's no predefined set \u2014 you and your team decide what matters. Common examples:\n\n- **PII** \u2014 flag columns that contain personally identifiable information\n- **owner** \u2014 who's responsible for this data asset, who to contact if something breaks\n- **importance** \u2014 mark which columns or models are critical vs. informational\n\nThese don't affect how dbt runs anything. They're purely for governance, discoverability, and helping your team navigate the project.\n\n---\n\n## Generating and viewing the docs\n\nTwo commands, run them in order:\n\n### `dbt docs generate`\n- Compiles everything \u2014 your YAML descriptions, your model code, and metadata from the warehouse (like actual column types and table sizes) \u2014 into a JSON file\n- In **dbt Cloud**, this happens automatically. There's even a checkbox for it\n- In **dbt Core**, you have to run it yourself\n\n### `dbt docs serve`\n- Takes the generated JSON and spins up a local website (defaults to `localhost:8080`)\n- Only needed if you're on **dbt Core** \u2014 dbt Cloud hosts the docs for you\n- If you want other people to see it, you'll need to host it somewhere (S3, Netlify, etc.)\n\n### What the docs site shows you\n- **Model code** \u2014 both the Jinja version you wrote and the compiled SQL that actually hits the database\n- **Column info** \u2014 types, descriptions, anything you added\n- **Lineage graph** \u2014 a visual DAG showing sources in green, all the way through to your final mart models. You can see exactly what depends on what, and whether a change might break something downstream\n- **Project structure** \u2014 toggle between a folder view and a database view\n\nIt's more of a **technical documentation** tool than a pretty data catalog. It's not going to replace something like Looker or Confluent's data catalog for non-technical stakeholders. But for the people building the models, it's genuinely useful \u2014 you can see at a glance what data assets exist, how they connect, and how they work.",
+              "filename": "data-engineering-zoomcamp-main/04-analytics-engineering/class_notes/4_5_1_documentation.md"
+            }
+          ],
+          "tool_call_id": "call_4OxmC5Y8P8YHciX4AbshED2K",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:18:30.717298+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:18:30.717710+00:00",
+      "instructions": "You are a helpful assistant for a course. \n\nAlways search for relevant information before answering. \nIf the first search doesn't give you enough information, try different search terms.\n\nMake multiple searches if needed to provide comprehensive answers.",
+      "kind": "request",
+      "run_id": "019d643b-6ae5-73f7-bc47-c4ab16445bca",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To join the course or community, you can follow these steps based on the provided resources:\n\n1. **Join the Slack Group**: Register in [DataTalks.Club's Slack](https://datatalks.club/slack.html) and join the [`#course-data-engineering`](https://app.slack.com/client/T01ATQK62F8/C01FABYF2RG) channel.\n\n2. **Telegram Channel**: Join the [course Telegram channel with announcements](https://t.me/dezoomcamp) for updates and announcements related to the course.\n\n3. **YouTube Channel**: Subscribe to [DataTalks.Club's YouTube channel](https://www.youtube.com/c/DataTalksClub) to access course-related videos and check the [course playlist](https://www.youtube.com/playlist?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb).\n\nAfter signing up, you will receive announcements and updates closer to the starting date of the course.",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 5273,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 214,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:18:36.280016+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:18:31+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjktrBbME0vIoKKUypjHl62TgaMb",
+      "finish_reason": "stop",
+      "run_id": "019d643b-6ae5-73f7-bc47-c4ab16445bca",
+      "metadata": null
+    }
+  ],
+  "source": "user"
+}

@@ -1,0 +1,223 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What is the correct way to pass a variable using dbt command line, and what should I know about environment types in dbt?",
+          "timestamp": "2026-04-06T19:27:08.842630+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:27:08.843609+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6443-5a27-70c2-a3fc-b7d32be3aca5",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\": \"pass variable dbt command line\"}",
+          "tool_call_id": "call_IeFMR5vjp7mmux9yxTBK8mj5",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\": \"environment types dbt\"}",
+          "tool_call_id": "call_JXHv5abzY7bQxezjck5LKtm9",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 238,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 52,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:27:12.289728+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:27:09+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjtF2oKacweWWGVGC7OguZQMvP4T",
+      "finish_reason": "tool_call",
+      "run_id": "019d6443-5a27-70c2-a3fc-b7d32be3aca5",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "25f96d0b34",
+              "question": "dbt: Command 'dbt' not found after installing dbt\u2014how can I fix it?",
+              "sort_order": 10,
+              "content": "These steps fix the 'dbt' command not found error when dbt is installed inside a virtual environment:\n\n1. Activate your virtual environment:\n```\nsource ~/venvs/zoomcamp/bin/activate\n```\n\n2. Verify dbt is installed inside it:\n```\nwhich dbt\n```\n\nIt should return something like:\n```\n~/venvs/zoomcamp/bin/dbt\n```\n\n3. If dbt is not installed, install it inside the activated environment:\n```\npip install dbt-bigquery\n```\n\n4. Confirm installation:\n```\ndbt --version\n```\n\nIf you want dbt available globally (not recommended), ensure the installation path is added to your PATH variable.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/010_25f96d0b34_dbt-venv-not-found-setup.md"
+            },
+            {
+              "id": "a07b793f65",
+              "question": "GCP BQ: \"bq: command not found\"",
+              "sort_order": 8,
+              "content": "Run the following command to check if \"BigQuery Command Line Tool\" is installed or not:\n\n```bash\ngcloud components list\n```\n\nYou can also use `bq.cmd` instead of `bq` to make it work.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-3/008_a07b793f65_gcp-bq-bq-command-not-found.md"
+            },
+            {
+              "id": "3cc457b0de",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_71e1a1ed.png"
+                }
+              ],
+              "question": "DBT: I ran dbt run without specifying variable which gave me a table of 100 rows. I ran again with the variable value specified but my table still has 100 rows in BQ.",
+              "sort_order": 29,
+              "content": "Remove the dataset from BigQuery created by dbt and run again (with test disabled) to ensure the dataset created has all the rows.\n\nDBT: Why am I getting a new dataset after running my CI/CD Job? / What is this new dbt dataset in BigQuery?\n\nWhen you create the CI/CD job, under 'Compare Changes against an environment (Deferral)' make sure that you select 'No; do not defer to another environment'. Otherwise, dbt won\u2019t merge your dev models into production models; it will create a new environment called \u2018dbt_cloud_pr_number of pull request\u2019\n\n<{IMAGE:image_1}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/029_3cc457b0de_dbt-i-ran-dbt-run-without-specifying-variable-whic.md"
+            },
+            {
+              "id": "a8e992c143",
+              "question": "dbt: Are there UI options for dbt Core like dbt Cloud?",
+              "sort_order": 84,
+              "content": "While dbt Core does not have an official UI like dbt Cloud, there are several tools available that provide UI functionality:\n\n- **Altimate's VS Code Extension**: \n  - Use the [VS Code dbt Power User extension](https://github.com/AltimateAI/vscode-dbt-power-user).\n  - Sign up for the community plan for free usage at [Altimate](https://app.myaltimate.com/register) and add the API into your VS Code extension.\n\n- **VSCode Snippets for dbt and Jinja**: \n  - Access the snippets package for SQL, YAML, and Markdown [here](https://github.com/bastienboutonnet/vscode-dbt).\n\n- **Monitoring with Elementary**:\n  - Monitor dbt projects using [Elementary](https://github.com/elementary-data/elementary).\n  - Learn more about its setup and features in this [Medium article](https://medium.com/@srinivas.dataengineer/supercharge-your-dbt-monitoring-with-elementary-data-0fac140a6f60).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/084_a8e992c143_dbt-are-there-ui-options-for-dbt-core-like-dbt-clo.md"
+            },
+            {
+              "id": "2d05496ddf",
+              "question": "Troubleshooting in dbt:",
+              "sort_order": 40,
+              "content": "The dbt error log contains a link to BigQuery. When you follow it, you will see your query, and the problematic line will be highlighted.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/040_2d05496ddf_troubleshooting-in-dbt.md"
+            }
+          ],
+          "tool_call_id": "call_IeFMR5vjp7mmux9yxTBK8mj5",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:27:12.314567+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "25f96d0b34",
+              "question": "dbt: Command 'dbt' not found after installing dbt\u2014how can I fix it?",
+              "sort_order": 10,
+              "content": "These steps fix the 'dbt' command not found error when dbt is installed inside a virtual environment:\n\n1. Activate your virtual environment:\n```\nsource ~/venvs/zoomcamp/bin/activate\n```\n\n2. Verify dbt is installed inside it:\n```\nwhich dbt\n```\n\nIt should return something like:\n```\n~/venvs/zoomcamp/bin/dbt\n```\n\n3. If dbt is not installed, install it inside the activated environment:\n```\npip install dbt-bigquery\n```\n\n4. Confirm installation:\n```\ndbt --version\n```\n\nIf you want dbt available globally (not recommended), ensure the installation path is added to your PATH variable.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/010_25f96d0b34_dbt-venv-not-found-setup.md"
+            },
+            {
+              "id": "f5c9c1b46d",
+              "question": "Power user for dbt vscode extension keeps asking to install dbt core even though dbt is installed in a virtual environment",
+              "sort_order": 88,
+              "content": "## Problem\nPower user for the dbt VS Code extension keeps prompting to install dbt core even though dbt is already installed in your virtual environment.\n\n## Steps to resolve\n- Activate your virtual environment:\n\n```\n# Unix/macOS\nsource <path-to-venv>/bin/activate\n\n# Windows\n<path-to-venv>\\Scripts\\activate\n```\n\n- In your dbt project folder (the one containing `dbt_project.yml`), run:\n\n```\ndbt debug\n```\n\n- Copy the Python interpreter path shown by `dbt debug` (the path to the Python executable inside your virtual environment).\n\n- Configure VS Code to use that interpreter:\n\n```\nCtrl/Cmd+Shift+P  ->  Python: Select Interpreter  ->  Enter interpreter path\n```\n\n- Paste the copied path and press Enter. Then check the bottom-left corner of VS Code to confirm that dbt core shows with a checkmark, indicating it is using the selected interpreter.\n\nIf the prompt persists, ensure there are no conflicting Python environments and consider restarting VS Code.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/088_f5c9c1b46d_dbt-vscode-extension-dbt-core-venv.md"
+            },
+            {
+              "id": "a8e992c143",
+              "question": "dbt: Are there UI options for dbt Core like dbt Cloud?",
+              "sort_order": 84,
+              "content": "While dbt Core does not have an official UI like dbt Cloud, there are several tools available that provide UI functionality:\n\n- **Altimate's VS Code Extension**: \n  - Use the [VS Code dbt Power User extension](https://github.com/AltimateAI/vscode-dbt-power-user).\n  - Sign up for the community plan for free usage at [Altimate](https://app.myaltimate.com/register) and add the API into your VS Code extension.\n\n- **VSCode Snippets for dbt and Jinja**: \n  - Access the snippets package for SQL, YAML, and Markdown [here](https://github.com/bastienboutonnet/vscode-dbt).\n\n- **Monitoring with Elementary**:\n  - Monitor dbt projects using [Elementary](https://github.com/elementary-data/elementary).\n  - Learn more about its setup and features in this [Medium article](https://medium.com/@srinivas.dataengineer/supercharge-your-dbt-monitoring-with-elementary-data-0fac140a6f60).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/084_a8e992c143_dbt-are-there-ui-options-for-dbt-core-like-dbt-clo.md"
+            },
+            {
+              "id": "29469cf158",
+              "question": "Setup: No development environment",
+              "sort_order": 6,
+              "content": "Error:\n\n```plaintext\nThis project does not have a development environment configured. Please create a development environment and configure your development credentials to use the dbt IDE.\n```\n\nThe error message provides guidance on resolving this issue. Follow the guide in the [dbt cloud setup documentation](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/04-analytics-engineering/dbt_cloud_setup.md). Additional instructions can be found in the [video @1:42](https://youtu.be/J0XCDyKiU64?si=2CTg3H63wyJTf5Vy&t=102).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/006_29469cf158_setup-no-development-environment.md"
+            },
+            {
+              "id": "fee87c684a",
+              "question": "DBT Deploy: Error When trying to run the dbt project on Prod",
+              "sort_order": 69,
+              "content": "When running the dbt project on production, ensure the following steps:\n\n1. **Pull Request and Merge**\n   - Make the pull request and merge the branch into the main.\n\n2. **Version Check**\n   - Ensure you have the latest version if changes were made to the repository elsewhere.\n\n3. **Project File Accessibility**\n   - Verify that the `dbt_project.yml` file is accessible to the project. If not, refer to the solution for the error: \"Dbt: This dbt Cloud run was cancelled because a valid dbt project was not found.\"\n\n4. **Dataset Consistency**\n   - Confirm that the name assigned to the dataset on BigQuery matches the name specified in the production environment configuration on dbt Cloud.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/069_fee87c684a_dbt-deploy-error-when-trying-to-run-the-dbt-projec.md"
+            }
+          ],
+          "tool_call_id": "call_JXHv5abzY7bQxezjck5LKtm9",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:27:12.314614+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:27:12.315163+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6443-5a27-70c2-a3fc-b7d32be3aca5",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "### Passing Variables Using dbt Command Line\n\nTo pass variables in dbt using the command line, you can use the `--vars` flag followed by the variable name and value. Here's an example of how to do this:\n\n```bash\ndbt run --vars '{\"my_variable\": \"value\"}'\n```\n\nMake sure that the variable you are trying to pass is defined in your model or macro, so dbt knows how to use it within your SQL. \n\n### Environment Types in dbt\n\ndbt allows you to work with different environments, which can be particularly useful for development, testing, and production setups. Here are the key points you should know:\n\n1. **Development Environment**: Typically used for building and testing dbt models. You might want to set up a separate database or schema for development to avoid interfering with production data.\n\n2. **Production Environment**: This is where your final, stable models are executed, usually with more stringent configurations and checks in place.\n\n3. **CI/CD and Merging**: When utilizing Continuous Integration and Deployment (CI/CD), you need to ensure that changes from your development environment can merge back into production without losing data. This often involves configuring how dbt handles these environments and ensuring your CI/CD pipelines are appropriately set up (e.g., not deferring to another environment).\n\n4. **Setup**: If you encounter errors related to environment configuration (e.g., \"This project does not have a development environment configured.\"), you must create a development environment and configure your credentials to use dbt efficiently.\n\nFor specifics on how to configure or handle issues with environments, please refer to the relevant documentation or error messages ([source](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-4/006_29469cf158_setup-no-development-environment.md)).\n\nIf you need more information or further clarification, feel free to ask!",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2738,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 396,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:27:21.572866+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:27:12+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjtI1EJ8C2LvrikLjGk15sTkjw9T",
+      "finish_reason": "stop",
+      "run_id": "019d6443-5a27-70c2-a3fc-b7d32be3aca5",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

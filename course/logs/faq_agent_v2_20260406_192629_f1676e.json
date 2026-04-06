@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Could you provide an example of how to add a conditional task in Kestra using YAML?",
+          "timestamp": "2026-04-06T19:26:14.758117+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:14.758467+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-86e4-75f7-8e2a-f8b6d0112b4f",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"conditional task example YAML Kestra\"}",
+          "tool_call_id": "call_7wnYoYPjaWRU9mMvoclTVz3Y",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 229,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 19,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:26:16.109992+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:26:15+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjsNj0RcVed4rrXv1kX7YHtiRPpP",
+      "finish_reason": "tool_call",
+      "run_id": "019d6442-86e4-75f7-8e2a-f8b6d0112b4f",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "bcc6781b6e",
+              "question": "How do I launch Kestra?",
+              "sort_order": 3,
+              "content": "To launch Kestra, follow these instructions:\n\n### For Linux\n\nStart Docker with the following command:\n\n```bash\ndocker run \\\n  --pull=always \\\n  --rm \\\n  -it \\\n  -p 8080:8080 \\\n  --user=root \\\n  -v /var/run/docker.sock:/var/run/docker.sock \\\n  -v /tmp:/tmp \\\n  kestra/kestra:latest server local\n```\n\nOnce it is running, you can log in to the dashboard at `localhost:8080`.\n\n### For Windows\n\nRefer to the Kestra GitHub repository for detailed instructions: [https://github.com/kestra-io/kestra](https://github.com/kestra-io/kestra)\n\n\nSample `docker-compose` for Kestra:\n\n```yaml\nkestra:\n  build: .\n  image: kestra/kestra:latest\n  container_name: kestra\n  user: \"0:0\"\n  environment:\n    DOCKER_HOST: tcp://host.docker.internal:2375  # for Windows\n    KESTRA_CONFIGURATION: |\n      kestra:\n        repository:\n          type: h2\n        queue:\n          type: memory\n        storage:\n          type: local\n          local:\n            basePath: /app/storage\n        tasks:\n          tmp-dir:\n            path: /app/tmp\n        plugins:\n          repositories:\n            - id: central\n              type: maven\n              url: [repo.maven.apache.org](https://repo.maven.apache.org/maven2)\n          definitions:\n            - io.kestra.plugin.core:core:latest\n            - io.kestra.plugin.scripts:python:1.3.4\n            - io.kestra.plugin.http:http:latest\n    KESTRA_TASKS_TMP_DIR_PATH: /app/tmp\n  ports:\n    - \"8080:8080\"\n  volumes:\n    - //var/run/docker.sock:/var/run/docker.sock  # Windows path\n    - /yourpath/.dbt:/app/.dbt\n    - /yourpath/kestra/plugins:/app/plugins\n    - /yourpath/kestra/workflows:/app/workflows\n    - /yourpath/kestra/storage:/app/storage\n    - /yourpath//kestra/tmp:/app/tmp\n    - /yourpath//dbt_prj:/app/workflows/dbt_project\n    - /yourpath//my-creds.json:/app/.dbt/my-creds.json\n  command: server standalone\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/003_bcc6781b6e_how-do-i-launch-kestra.md"
+            },
+            {
+              "id": "b7ff18706c",
+              "question": "Why does Kestra support conditional branching within a single workflow instead of separate flows?",
+              "sort_order": 19,
+              "content": "Kestra supports conditional branching within a single workflow to reuse shared orchestration logic while allowing dataset-specific behavior. This approach reduces duplication, keeps related steps together, and makes execution paths explicit within a single workflow definition.\n\nWhen to use a single-workflow branch:\n- Reuse common steps (e.g., data validation, enrichment) across datasets.\n- Implement dataset-specific paths (e.g., Yellow vs Green taxi) within the same flow.\n\nHow to implement:\n- Use a branching mechanism in Kestra (e.g., a condition or switch node) to evaluate a runtime variable (such as the dataset type) and route to the appropriate sub-path.\n- Place shared steps before the branch; place dataset-specific steps inside each branch.\n- Decide how branches converge: continue with a common tail after the branch or treat branches as separate end states.\n\nBest practices:\n- Keep branches modular and minimal; extract shared logic into subflows where possible.\n- Centralize error handling and logging to ensure consistency across branches.\n- Test each branch with representative inputs and monitor branch-specific failures separately.\n\nExample (illustrative pseudo YAML):\n```\n- id: route_by_dataset\n  type: branch\n  when:\n    - condition: ${workflow.variables.dataset_type == 'yellow'}\n      then:\n        - - id: yellow_tasks\n            tasks: [ yellow_validate, yellow_transform ]\n    - else:\n        - - id: green_tasks\n            tasks: [ green_validate, green_transform ]\n- id: end\n  type: terminate\n```\n\nNote: Adapt the exact branch/task names to your Kestra workflow definitions. The key idea is to place shared logic before the branch, branch on dataset/type, and then execute dataset-specific steps within each branch.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/019_b7ff18706c_conditional-branching-within-workflow.md"
+            },
+            {
+              "id": "f5a8ca34fa",
+              "question": "Why does the CSV file size shown in the Kestra Outputs tab differ from the value printed by a Python task?",
+              "sort_order": 24,
+              "content": "Kestra displays file sizes in the Outputs tab using human-readable units (e.g., MiB), while a Python task using `os.path.getsize()` returns the raw file size in bytes. For Homework 2, the correct value is the uncompressed file size in bytes (as printed in task logs), not the rounded UI value. The UI size is a convenience display and should not be used for exact comparisons.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/024_f5a8ca34fa_kestra-file-size-vs-ui-size.md"
+            },
+            {
+              "id": "e14f6a8ed9",
+              "question": "Can I run my dbt project from Kestra?",
+              "sort_order": 25,
+              "content": "Yes, you can integrate `dbt` with `Kestra` to combine dbt's transformation capabilities with Kestra's orchestration, monitoring, and Git integration. There are three main capabilities worth highlighting:\n\n- Orchestrating `dbt` runs as part of Kestra pipelines\n- Centralized monitoring and alerting for `dbt` runs via Kestra\n- Git integration for triggering and tracking dbt projects within Kestra pipelines",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/025_e14f6a8ed9_dbt-kestra-run.md"
+            },
+            {
+              "id": "5a0d2c0e59",
+              "question": "Why doesn\u2019t Kestra automatically convert printed task outputs into variables?",
+              "sort_order": 5,
+              "content": "Kestra distinguishes between execution logs and structured outputs. Values printed to stdout are treated as logs for observability, not as structured data. Explicit output definitions are required to persist or reuse values across tasks.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/021_5a0d2c0e59_kestra-stdout-variables.md"
+            }
+          ],
+          "tool_call_id": "call_7wnYoYPjaWRU9mMvoclTVz3Y",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:26:16.130811+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:16.131325+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-86e4-75f7-8e2a-f8b6d0112b4f",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To add a conditional task in Kestra using YAML, you can utilize a branching mechanism. Here's an illustrative example of how to structure this in YAML:\n\n```yaml\n- id: route_by_dataset\n  type: branch\n  when:\n    - condition: ${workflow.variables.dataset_type == 'yellow'}\n      then:\n        - - id: yellow_tasks\n            tasks: [ yellow_validate, yellow_transform ]\n    - else:\n        - - id: green_tasks\n            tasks: [ green_validate, green_transform ]\n- id: end\n  type: terminate\n```\n\n### Explanation:\n- The `branch` task routes execution based on the condition evaluated at runtime.\n- It checks if `dataset_type` variable equals 'yellow'.\n- If true (`then`), it executes tasks for yellow datasets (`yellow_validate`, `yellow_transform`).\n- If false (`else`), it executes tasks for green datasets (`green_validate`, `green_transform`).\n- Finally, there is a `terminate` task to signify the end of the workflow.\n\nThis structure allows for conditional execution paths within a single workflow, keeping related tasks organized and minimizing duplication of logic.\n\nYou can find more information related to this in the course material. Reference: [Conditional branching within workflow](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-2/019_b7ff18706c_conditional-branching-within-workflow.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1755,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 299,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:26:29.659593+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:26:16+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjsOlFHXNFmgLJsY2JQg53c2hUBY",
+      "finish_reason": "stop",
+      "run_id": "019d6442-86e4-75f7-8e2a-f8b6d0112b4f",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

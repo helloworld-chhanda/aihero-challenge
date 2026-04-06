@@ -1,0 +1,193 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What should I do if I encounter a new dataset in BigQuery after running my CI/CD job with dbt?",
+          "timestamp": "2026-04-06T19:27:34.938915+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:27:34.939617+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6443-c018-70b4-a761-ac0da1f72751",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"new dataset BigQuery after running CI/CD job dbt\"}",
+          "tool_call_id": "call_owNqhCkbabD9L80nbffzDaym",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 234,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 24,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:27:36.302593+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:27:35+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjtflnokshmA2Vgd8b4ndOwYWasT",
+      "finish_reason": "tool_call",
+      "run_id": "019d6443-c018-70b4-a761-ac0da1f72751",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "3cc457b0de",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_71e1a1ed.png"
+                }
+              ],
+              "question": "DBT: I ran dbt run without specifying variable which gave me a table of 100 rows. I ran again with the variable value specified but my table still has 100 rows in BQ.",
+              "sort_order": 29,
+              "content": "Remove the dataset from BigQuery created by dbt and run again (with test disabled) to ensure the dataset created has all the rows.\n\nDBT: Why am I getting a new dataset after running my CI/CD Job? / What is this new dbt dataset in BigQuery?\n\nWhen you create the CI/CD job, under 'Compare Changes against an environment (Deferral)' make sure that you select 'No; do not defer to another environment'. Otherwise, dbt won\u2019t merge your dev models into production models; it will create a new environment called \u2018dbt_cloud_pr_number of pull request\u2019\n\n<{IMAGE:image_1}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/029_3cc457b0de_dbt-i-ran-dbt-run-without-specifying-variable-whic.md"
+            },
+            {
+              "id": "5dd0cdae58",
+              "question": "DBT Deploy + CI: Location Problems on BigQuery",
+              "sort_order": 68,
+              "content": "When creating a pull request and running the CI, dbt creates a new schema on BigQuery. By default, this new schema is created with the 'US' location. If your datasets, schemas, and tables are in the 'EU', this will cause an error and the pull request will not be accepted. \n\nTo change the location to 'EU' in the connection to BigQuery from dbt, follow these steps:\n\n- Navigate to **Dbt -> Project -> Settings -> Connection BigQuery**\n- Open **Optional Settings**\n- Set **Location** to `EU`",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/068_5dd0cdae58_dbt-deploy-ci-location-problems-on-bigquery.md"
+            },
+            {
+              "id": "eab34fffe6",
+              "question": "dbt: Job - Triggered by pull requests is disabled prerequisites when I try to create a new Continuous Integration job in dbt cloud.",
+              "sort_order": 10,
+              "content": "Solution:\n\nCheck if you\u2019re on the Developer Plan. As per the [prerequisites](https://docs.getdbt.com/docs/deploy/ci-jobs#prerequisites), you'll need to be enrolled in the Team Plan or Enterprise Plan to set up a CI Job in dbt Cloud.\n\n- If you're on the Developer Plan, you'll need to upgrade to utilize CI Jobs.\n\nNote: A user mentioned that while on the Team Plan (trial period), the option was still disabled. In this case, you might try other troubleshooting steps for the Developer (free) plan.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/010_eab34fffe6_dbt-job-triggered-by-pull-requests-is-disabled-pre.md"
+            },
+            {
+              "id": "3d51ece7b9",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_c35c101c.png"
+                }
+              ],
+              "question": "Dbt deploy + Git CI: cannot create CI checks job for deployment to Production",
+              "sort_order": 35,
+              "content": "**Error:**\n\n```\nTriggered by pull requests\n\nThis feature is only available for dbt repositories connected through dbt Cloud's native integration with Github, Gitlab, or Azure DevOps\n```\n\n**Solution:**\n\nContrary to the [guide on DTC repo](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/04-analytics-engineering/dbt_cloud_setup.md), don\u2019t use the Git Clone option. Use the Github one instead. A step-by-step guide to unlink Git Clone and relink with Github is available in the next entry.\n\n<{IMAGE:image_1}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/035_3d51ece7b9_dbt-deploy-git-ci-cannot-create-ci-checks-job-for.md"
+            },
+            {
+              "id": "1c4ac5d626",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_7800f401.png"
+                },
+                {
+                  "description": "image #2",
+                  "id": "image_2",
+                  "path": "images/data-engineering-zoomcamp/image_8efd4f76.png"
+                },
+                {
+                  "description": "image #3",
+                  "id": "image_3",
+                  "path": "images/data-engineering-zoomcamp/image_4e68416b.png"
+                }
+              ],
+              "question": "Dbt deploy + Git CI - Unable to configure Continuous Integration (CI) with Github",
+              "sort_order": 36,
+              "content": "If you\u2019re trying to configure CI with Github and on the job\u2019s options you can\u2019t see `Run on Pull Requests?` on triggers, follow these steps to reconnect using a native connection instead of cloning by SSH:\n\n1. **Connect Your Github Account**  \n   - Go to `Profile Settings > Linked Accounts`.\n   - Connect your Github account with the dbt project, allowing the requested permissions.  \n   - More information can be found [here](https://docs.getdbt.com/docs/collaborate/git/connect-github).\n   \n   <{IMAGE:image_1}>\n   \n2. **Disconnect Current Configuration**  \n   - Navigate to `Account Settings > Projects (analytics) > Github connection`.\n   - Click the `Disconnect` button at the bottom left.\n\n3. **Reconfigure Github Connection**  \n   - After disconnecting, configure again by choosing Github.\n   - Select your repository from all allowed repositories to work with dbt. Your setup will now be ready.\n   \n   <{IMAGE:image_2}>\n   \n4. **Configure Triggers**  \n   - Go to `Deploy > Job Configuration`.\n   - Scroll down to `Triggers` where you can see the option `Run on Pull Requests:`\n   \n   <{IMAGE:image_3}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/036_1c4ac5d626_dbt-deploy-git-ci-unable-to-configure-continuous-i.md"
+            }
+          ],
+          "tool_call_id": "call_owNqhCkbabD9L80nbffzDaym",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:27:36.319296+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:27:36.319826+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6443-c018-70b4-a761-ac0da1f72751",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "If you encounter a new dataset in BigQuery after running your CI/CD job with dbt, it typically indicates that dbt is creating a new environment instead of merging your development models into production. Here are the steps you can take to resolve this issue:\n\n1. **Check CI/CD Job Settings**: Make sure that in your CI/CD job settings, under 'Compare Changes against an environment (Deferral)', you select 'No; do not defer to another environment'. If this step is not appropriately set, dbt will create a new environment called \u2018dbt_cloud_pr_number of pull request\u2019 instead of merging with the main environment.\n\n2. **Remove the Unwanted Dataset**: If the new dataset was created and you find it unnecessary, you may consider removing it from BigQuery.\n\n3. **Re-run the Job**: After making the necessary adjustments, re-run the dbt job to ensure that it behaves as expected.\n\nThese steps should help you properly manage your datasets in BigQuery when using dbt. For more details, you can refer to the source material: [DBT FAQ on creating a new dataset in BigQuery](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-4/029_3cc457b0de_dbt-i-ran-dbt-run-without-specifying-variable-whic.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1655,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 283,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:27:41.780083+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:27:36+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjtg8NB6B3wxo8R4TwHnToTFQLQt",
+      "finish_reason": "stop",
+      "run_id": "019d6443-c018-70b4-a761-ac0da1f72751",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

@@ -1,0 +1,67 @@
+{
+  "agent_name": "faq_agent",
+  "system_prompt": [
+    "\nYou are a helpful assistant for a course. \n\nAlways search for relevant information before answering. \nIf the first search doesn't give you enough information, try different search terms.\n\nMake multiple searches if needed to provide comprehensive answers.\n"
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "hello",
+          "timestamp": "2026-04-06T19:20:19.380653+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:20:19.382628+00:00",
+      "instructions": "You are a helpful assistant for a course. \n\nAlways search for relevant information before answering. \nIf the first search doesn't give you enough information, try different search terms.\n\nMake multiple searches if needed to provide comprehensive answers.",
+      "kind": "request",
+      "run_id": "019d643d-1aa4-739f-83f4-7de7e37b2e83",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "Hello! How can I assist you today?",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 136,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 10,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:20:21.483795+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:20:20+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjmepA72SGlq7lsv5dfbOCnTzaPD",
+      "finish_reason": "stop",
+      "run_id": "019d643d-1aa4-739f-83f4-7de7e37b2e83",
+      "metadata": null
+    }
+  ],
+  "source": "user"
+}

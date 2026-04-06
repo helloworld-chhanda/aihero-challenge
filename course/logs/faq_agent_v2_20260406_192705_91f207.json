@@ -1,0 +1,270 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What should I do if Anaconda's Python is not recognized in my PATH on different operating systems?",
+          "timestamp": "2026-04-06T19:26:38.286693+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:38.287561+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-e2cb-70bb-a571-1f047cb4be10",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\": \"Anaconda Python not recognized PATH Windows\"}",
+          "tool_call_id": "call_ehEhvWEYJogI44ONE8Y1hDjK",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\": \"Anaconda Python not recognized PATH macOS\"}",
+          "tool_call_id": "call_V1muCB8yq2LJqCzCNkboiBPc",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        },
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\": \"Anaconda Python not recognized PATH Linux\"}",
+          "tool_call_id": "call_qMXe2dkWKSXTl71eOPxm6xHg",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 231,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 77,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:26:40.680280+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T19:26:38+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjskxyfg6CgEQamnRMYsFgU4DRSK",
+      "finish_reason": "tool_call",
+      "run_id": "019d6442-e2cb-70bb-a571-1f047cb4be10",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "d02af042b1",
+              "question": "'pip' is not recognized as an internal or external command, operable program or batch file.",
+              "sort_order": 131,
+              "content": "If you use Anaconda (recommended for the course), it comes with `pip`, so the issue is probably that Anaconda\u2019s Python is not on the PATH.\n\n\n**For Linux and MacOS:**\n\n1. Open a terminal.\n2. Find the path to your Anaconda installation. This is typically `~/anaconda3` or `~/opt/anaconda3`.\n3. Add Anaconda to your PATH with the command:\n   \n   ```bash\n   export PATH=\"/path/to/anaconda3/bin:$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` (Linux) or `.bash_profile` (MacOS) file.\n\n**On Windows, using Git Bash:**\n\n1. Locate your Anaconda installation. The default path is usually `C:\\Users\\[YourUsername]\\Anaconda3`.\n2. Convert the Windows path to a Unix-style path for Git Bash, e.g., `C:\\Users\\[YourUsername]\\Anaconda3` becomes `/c/Users/[YourUsername]/Anaconda3`.\n3. Add Anaconda to your PATH with the command:\n\n   ```bash\n   export PATH=\"/c/Users/[YourUsername]/Anaconda3/:/c/Users/[YourUsername]/Anaconda3/Scripts/$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` file in your home directory.\n5. Refresh your environment with the command:\n\n   ```bash\n   source ~/.bashrc\n   ```\n\n**For Windows (without Git Bash):**\n\n1. Right-click on 'This PC' or 'My Computer' and select 'Properties'.\n2. Click on 'Advanced system settings'.\n3. In the System Properties window, click on 'Environment Variables'.\n4. In the Environment Variables window, select the 'Path' variable in the 'System variables' section and click 'Edit'.\n5. In the Edit Environment Variable window, click 'New' and add the path to your Anaconda installation (typically `C:\\Users\\[YourUsername]\\Anaconda3` and `C:\\Users\\[YourUsername]\\Anaconda3\\Scripts`).\n6. Click 'OK' in all windows to apply the changes.\n\nAfter adding Anaconda to the PATH, you should be able to use `pip` from the command line. Remember to restart your terminal (or command prompt in Windows) to apply these changes.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/131_d02af042b1_pip-is-not-recognized-as-an-internal-or-external-c.md"
+            },
+            {
+              "id": "a9081d1a79",
+              "question": "Anaconda to PIP",
+              "sort_order": 133,
+              "content": "To get a pip-friendly `requirements.txt` file from Anaconda, use the following steps:\n\n1. Install pip in your Anaconda environment:\n   ```bash\n   conda install pip\n   ```\n2. Generate the `requirements.txt` file:\n   ```bash\n   pip list --format=freeze > requirements.txt\n   ```\n\nNote:\n- `conda list -d > requirements.txt` will not work.\n- `pip freeze > requirements.txt` may give odd pathing.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/133_a9081d1a79_anaconda-to-pip.md"
+            },
+            {
+              "id": "25b0348672",
+              "question": "GCP: Unable to add Google Cloud SDK PATH to Windows",
+              "sort_order": 95,
+              "content": "### Issue\n\nWindows error:\n\n```\nThe installer is unable to automatically update your system PATH. Please add C:\\tools\\google-cloud-sdk\\bin\n```\n\n### Solution\n\nIf you encounter this error frequently, consider the following steps:\n\n1. **Add Gitbash to Windows Path:**\n   \n   - **Using Conda:**\n     - Download the Anaconda Navigator.\n     - During installation, check the box to add Conda to the path (even though it's not recommended).\n\n2. **Install Git Bash:**\n\n   - If not installed, install Git Bash.\n   - If installed, consider reinstalling it.\n   - During installation, ensure you check:\n     - Add GitBash to Windows Terminal\n     - Use Git and optional Unix tools from the command prompt\n\n3. **Setup Git Bash:**\n\n   - Open Git Bash and type the following command:\n     \n     ```bash\n     conda init bash\n     ```\n   \n   - This will modify your bash profile.\n\n4. **Set Gitbash as Default Terminal:**\n\n   - Open the Windows Terminal.\n   - Go to settings.\n   - Change the default profile from Windows PowerShell to Git Bash.\n\nBy following these steps, you should be able to add the Google Cloud SDK path to your system on Windows without issues.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/095_25b0348672_gcp-unable-to-add-google-cloud-sdk-path-to-windows.md"
+            },
+            {
+              "id": "acd25600d1",
+              "question": "How to configure and run a Python script in Kestra Docker on Windows 11 without the 'Could not find or install 'Python 3.13' path' error?",
+              "sort_order": 18,
+              "content": "```yaml\ntype: io.kestra.plugin.scripts.python.Commands\ncommands:\n  - pip install requests kestra\n  - python your_script.py\nInputFiles:\n  your_script.py: |\n    # Python script content from before\n```\n\nTo use, replace `your_script.py` with your actual script filename and paste the Python code under `InputFiles`.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/018_acd25600d1_windows11-kestra-python-script.md"
+            },
+            {
+              "id": "b3030c88e7",
+              "question": "wget is not recognized as an internal or external command",
+              "sort_order": 5,
+              "content": "If you encounter the error \"wget is not recognized as an internal or external command,\" wget needs to be installed.\n\nThis error may also cause messages like \"No such file or directory: 'output.csv.gz'.\"\n\n### Installation Instructions:\n\n- **On Ubuntu:**\n\n  ```bash\n  sudo apt-get install wget\n  ```\n\n- **On macOS:**\n\n  Use [Homebrew](https://brew.sh/):\n\n  ```bash\n  brew install wget\n  ```\n\n- **On Windows:**\n\n  Use [Chocolatey](https://chocolatey.org/):\n\n  ```bash\n  choco install wget\n  ```\n\n  Alternatively, download a binary from [GnuWin32](https://gnuwin32.sourceforge.net/packages/wget.htm) and place it in a location that is in your PATH (e.g., `C:/tools/`).\n\n#### Alternative Windows Installation:\n\n1. Download the latest wget binary for Windows from [eternallybored](https://eternallybored.org/misc/wget/).\n2. If you downloaded the zip, extract all files (use [7-zip](https://7-zip.org/) if the built-in utility gives an error).\n3. Rename the file `wget64.exe` to `wget.exe` if necessary.\n4. Move `wget.exe` to your `Git\\mingw64\\bin\\` directory.\n\n#### Python Alternative:\n\n- Use the Python wget library:\n\n  First, install using pip:\n\n  ```bash\n  pip install wget\n  ```\n\n- Use it with Python:\n\n  ```bash\n  python -m wget\n  ```\n\nYou can also paste the file URL into your web browser to download normally, then move the file to your working directory.\n\n### Additional Recommendation:\n\nConsider using the Python library [requests](https://pypi.org/project/requests) for loading gz files.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/005_b3030c88e7_wget-is-not-recognized-as-an-internal-or-external.md"
+            }
+          ],
+          "tool_call_id": "call_ehEhvWEYJogI44ONE8Y1hDjK",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:26:40.705941+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "d02af042b1",
+              "question": "'pip' is not recognized as an internal or external command, operable program or batch file.",
+              "sort_order": 131,
+              "content": "If you use Anaconda (recommended for the course), it comes with `pip`, so the issue is probably that Anaconda\u2019s Python is not on the PATH.\n\n\n**For Linux and MacOS:**\n\n1. Open a terminal.\n2. Find the path to your Anaconda installation. This is typically `~/anaconda3` or `~/opt/anaconda3`.\n3. Add Anaconda to your PATH with the command:\n   \n   ```bash\n   export PATH=\"/path/to/anaconda3/bin:$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` (Linux) or `.bash_profile` (MacOS) file.\n\n**On Windows, using Git Bash:**\n\n1. Locate your Anaconda installation. The default path is usually `C:\\Users\\[YourUsername]\\Anaconda3`.\n2. Convert the Windows path to a Unix-style path for Git Bash, e.g., `C:\\Users\\[YourUsername]\\Anaconda3` becomes `/c/Users/[YourUsername]/Anaconda3`.\n3. Add Anaconda to your PATH with the command:\n\n   ```bash\n   export PATH=\"/c/Users/[YourUsername]/Anaconda3/:/c/Users/[YourUsername]/Anaconda3/Scripts/$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` file in your home directory.\n5. Refresh your environment with the command:\n\n   ```bash\n   source ~/.bashrc\n   ```\n\n**For Windows (without Git Bash):**\n\n1. Right-click on 'This PC' or 'My Computer' and select 'Properties'.\n2. Click on 'Advanced system settings'.\n3. In the System Properties window, click on 'Environment Variables'.\n4. In the Environment Variables window, select the 'Path' variable in the 'System variables' section and click 'Edit'.\n5. In the Edit Environment Variable window, click 'New' and add the path to your Anaconda installation (typically `C:\\Users\\[YourUsername]\\Anaconda3` and `C:\\Users\\[YourUsername]\\Anaconda3\\Scripts`).\n6. Click 'OK' in all windows to apply the changes.\n\nAfter adding Anaconda to the PATH, you should be able to use `pip` from the command line. Remember to restart your terminal (or command prompt in Windows) to apply these changes.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/131_d02af042b1_pip-is-not-recognized-as-an-internal-or-external-c.md"
+            },
+            {
+              "id": "a9081d1a79",
+              "question": "Anaconda to PIP",
+              "sort_order": 133,
+              "content": "To get a pip-friendly `requirements.txt` file from Anaconda, use the following steps:\n\n1. Install pip in your Anaconda environment:\n   ```bash\n   conda install pip\n   ```\n2. Generate the `requirements.txt` file:\n   ```bash\n   pip list --format=freeze > requirements.txt\n   ```\n\nNote:\n- `conda list -d > requirements.txt` will not work.\n- `pip freeze > requirements.txt` may give odd pathing.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/133_a9081d1a79_anaconda-to-pip.md"
+            },
+            {
+              "id": "b3030c88e7",
+              "question": "wget is not recognized as an internal or external command",
+              "sort_order": 5,
+              "content": "If you encounter the error \"wget is not recognized as an internal or external command,\" wget needs to be installed.\n\nThis error may also cause messages like \"No such file or directory: 'output.csv.gz'.\"\n\n### Installation Instructions:\n\n- **On Ubuntu:**\n\n  ```bash\n  sudo apt-get install wget\n  ```\n\n- **On macOS:**\n\n  Use [Homebrew](https://brew.sh/):\n\n  ```bash\n  brew install wget\n  ```\n\n- **On Windows:**\n\n  Use [Chocolatey](https://chocolatey.org/):\n\n  ```bash\n  choco install wget\n  ```\n\n  Alternatively, download a binary from [GnuWin32](https://gnuwin32.sourceforge.net/packages/wget.htm) and place it in a location that is in your PATH (e.g., `C:/tools/`).\n\n#### Alternative Windows Installation:\n\n1. Download the latest wget binary for Windows from [eternallybored](https://eternallybored.org/misc/wget/).\n2. If you downloaded the zip, extract all files (use [7-zip](https://7-zip.org/) if the built-in utility gives an error).\n3. Rename the file `wget64.exe` to `wget.exe` if necessary.\n4. Move `wget.exe` to your `Git\\mingw64\\bin\\` directory.\n\n#### Python Alternative:\n\n- Use the Python wget library:\n\n  First, install using pip:\n\n  ```bash\n  pip install wget\n  ```\n\n- Use it with Python:\n\n  ```bash\n  python -m wget\n  ```\n\nYou can also paste the file URL into your web browser to download normally, then move the file to your working directory.\n\n### Additional Recommendation:\n\nConsider using the Python library [requests](https://pypi.org/project/requests) for loading gz files.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/005_b3030c88e7_wget-is-not-recognized-as-an-internal-or-external.md"
+            },
+            {
+              "id": "acd25600d1",
+              "question": "How to configure and run a Python script in Kestra Docker on Windows 11 without the 'Could not find or install 'Python 3.13' path' error?",
+              "sort_order": 18,
+              "content": "```yaml\ntype: io.kestra.plugin.scripts.python.Commands\ncommands:\n  - pip install requests kestra\n  - python your_script.py\nInputFiles:\n  your_script.py: |\n    # Python script content from before\n```\n\nTo use, replace `your_script.py` with your actual script filename and paste the Python code under `InputFiles`.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/018_acd25600d1_windows11-kestra-python-script.md"
+            },
+            {
+              "id": "646e2067e8",
+              "question": "Python - ModuleNotFoundError: No module named 'pysqlite2'",
+              "sort_order": 83,
+              "content": "```\nImportError: DLL load failed while importing _sqlite3: The specified module could not be found. \nModuleNotFoundError: No module named 'pysqlite2'\n```\n\nThe issue may arise due to the absence of `sqlite3.dll` in the path `\".\\Anaconda\\Dlls\\\"`.\n\nTo resolve the issue:\n\n1. Copy the `sqlite3.dll` file from `\\Anaconda3\\Library\\bin`.\n2. Paste the file into the `\".\\Anaconda\\Dlls\\\"` directory.\n\nThis solution applies if you are using Anaconda.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/083_646e2067e8_python-modulenotfounderror-no-module-named-pysqlit.md"
+            }
+          ],
+          "tool_call_id": "call_V1muCB8yq2LJqCzCNkboiBPc",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:26:40.706181+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        },
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "d02af042b1",
+              "question": "'pip' is not recognized as an internal or external command, operable program or batch file.",
+              "sort_order": 131,
+              "content": "If you use Anaconda (recommended for the course), it comes with `pip`, so the issue is probably that Anaconda\u2019s Python is not on the PATH.\n\n\n**For Linux and MacOS:**\n\n1. Open a terminal.\n2. Find the path to your Anaconda installation. This is typically `~/anaconda3` or `~/opt/anaconda3`.\n3. Add Anaconda to your PATH with the command:\n   \n   ```bash\n   export PATH=\"/path/to/anaconda3/bin:$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` (Linux) or `.bash_profile` (MacOS) file.\n\n**On Windows, using Git Bash:**\n\n1. Locate your Anaconda installation. The default path is usually `C:\\Users\\[YourUsername]\\Anaconda3`.\n2. Convert the Windows path to a Unix-style path for Git Bash, e.g., `C:\\Users\\[YourUsername]\\Anaconda3` becomes `/c/Users/[YourUsername]/Anaconda3`.\n3. Add Anaconda to your PATH with the command:\n\n   ```bash\n   export PATH=\"/c/Users/[YourUsername]/Anaconda3/:/c/Users/[YourUsername]/Anaconda3/Scripts/$PATH\"\n   ```\n\n4. To make this change permanent, add the command to your `.bashrc` file in your home directory.\n5. Refresh your environment with the command:\n\n   ```bash\n   source ~/.bashrc\n   ```\n\n**For Windows (without Git Bash):**\n\n1. Right-click on 'This PC' or 'My Computer' and select 'Properties'.\n2. Click on 'Advanced system settings'.\n3. In the System Properties window, click on 'Environment Variables'.\n4. In the Environment Variables window, select the 'Path' variable in the 'System variables' section and click 'Edit'.\n5. In the Edit Environment Variable window, click 'New' and add the path to your Anaconda installation (typically `C:\\Users\\[YourUsername]\\Anaconda3` and `C:\\Users\\[YourUsername]\\Anaconda3\\Scripts`).\n6. Click 'OK' in all windows to apply the changes.\n\nAfter adding Anaconda to the PATH, you should be able to use `pip` from the command line. Remember to restart your terminal (or command prompt in Windows) to apply these changes.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/131_d02af042b1_pip-is-not-recognized-as-an-internal-or-external-c.md"
+            },
+            {
+              "id": "a9081d1a79",
+              "question": "Anaconda to PIP",
+              "sort_order": 133,
+              "content": "To get a pip-friendly `requirements.txt` file from Anaconda, use the following steps:\n\n1. Install pip in your Anaconda environment:\n   ```bash\n   conda install pip\n   ```\n2. Generate the `requirements.txt` file:\n   ```bash\n   pip list --format=freeze > requirements.txt\n   ```\n\nNote:\n- `conda list -d > requirements.txt` will not work.\n- `pip freeze > requirements.txt` may give odd pathing.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/133_a9081d1a79_anaconda-to-pip.md"
+            },
+            {
+              "id": "b3030c88e7",
+              "question": "wget is not recognized as an internal or external command",
+              "sort_order": 5,
+              "content": "If you encounter the error \"wget is not recognized as an internal or external command,\" wget needs to be installed.\n\nThis error may also cause messages like \"No such file or directory: 'output.csv.gz'.\"\n\n### Installation Instructions:\n\n- **On Ubuntu:**\n\n  ```bash\n  sudo apt-get install wget\n  ```\n\n- **On macOS:**\n\n  Use [Homebrew](https://brew.sh/):\n\n  ```bash\n  brew install wget\n  ```\n\n- **On Windows:**\n\n  Use [Chocolatey](https://chocolatey.org/):\n\n  ```bash\n  choco install wget\n  ```\n\n  Alternatively, download a binary from [GnuWin32](https://gnuwin32.sourceforge.net/packages/wget.htm) and place it in a location that is in your PATH (e.g., `C:/tools/`).\n\n#### Alternative Windows Installation:\n\n1. Download the latest wget binary for Windows from [eternallybored](https://eternallybored.org/misc/wget/).\n2. If you downloaded the zip, extract all files (use [7-zip](https://7-zip.org/) if the built-in utility gives an error).\n3. Rename the file `wget64.exe` to `wget.exe` if necessary.\n4. Move `wget.exe` to your `Git\\mingw64\\bin\\` directory.\n\n#### Python Alternative:\n\n- Use the Python wget library:\n\n  First, install using pip:\n\n  ```bash\n  pip install wget\n  ```\n\n- Use it with Python:\n\n  ```bash\n  python -m wget\n  ```\n\nYou can also paste the file URL into your web browser to download normally, then move the file to your working directory.\n\n### Additional Recommendation:\n\nConsider using the Python library [requests](https://pypi.org/project/requests) for loading gz files.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/005_b3030c88e7_wget-is-not-recognized-as-an-internal-or-external.md"
+            },
+            {
+              "id": "acd25600d1",
+              "question": "How to configure and run a Python script in Kestra Docker on Windows 11 without the 'Could not find or install 'Python 3.13' path' error?",
+              "sort_order": 18,
+              "content": "```yaml\ntype: io.kestra.plugin.scripts.python.Commands\ncommands:\n  - pip install requests kestra\n  - python your_script.py\nInputFiles:\n  your_script.py: |\n    # Python script content from before\n```\n\nTo use, replace `your_script.py` with your actual script filename and paste the Python code under `InputFiles`.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/018_acd25600d1_windows11-kestra-python-script.md"
+            },
+            {
+              "id": "646e2067e8",
+              "question": "Python - ModuleNotFoundError: No module named 'pysqlite2'",
+              "sort_order": 83,
+              "content": "```\nImportError: DLL load failed while importing _sqlite3: The specified module could not be found. \nModuleNotFoundError: No module named 'pysqlite2'\n```\n\nThe issue may arise due to the absence of `sqlite3.dll` in the path `\".\\Anaconda\\Dlls\\\"`.\n\nTo resolve the issue:\n\n1. Copy the `sqlite3.dll` file from `\\Anaconda3\\Library\\bin`.\n2. Paste the file into the `\".\\Anaconda\\Dlls\\\"` directory.\n\nThis solution applies if you are using Anaconda.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/083_646e2067e8_python-modulenotfounderror-no-module-named-pysqlit.md"
+            }
+          ],
+          "tool_call_id": "call_qMXe2dkWKSXTl71eOPxm6xHg",
+          "metadata": null,
+          "timestamp": "2026-04-06T19:26:40.705865+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T19:26:40.709044+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6442-e2cb-70bb-a571-1f047cb4be10",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "If Anaconda's Python is not recognized in your PATH across different operating systems, follow the steps outlined below for each OS.\n\n### For Windows (using Command Prompt or PowerShell)\n\n1. **Locate Your Anaconda Installation**:\n   Usually found at `C:\\Users\\[YourUsername]\\Anaconda3`.\n\n2. **Update the Environment Variables**:\n   - Right-click on 'This PC' or 'My Computer' and select 'Properties'.\n   - Click on 'Advanced system settings'.\n   - In the System Properties window, click on 'Environment Variables'.\n   - In the Environment Variables window, find the 'Path' variable in the 'System variables' section and click 'Edit'.\n   - Click 'New' and add:\n     - `C:\\Users\\[YourUsername]\\Anaconda3`\n     - `C:\\Users\\[YourUsername]\\Anaconda3\\Scripts`\n   - Click 'OK' to close all dialogues.\n\n3. **Restart Your Command Prompt**:\n   Open a new terminal window to apply the changes.\n\n### For Windows (using Git Bash)\n\n1. **Locate Your Anaconda Installation**:\n   Same as above, e.g., `C:\\Users\\[YourUsername]\\Anaconda3`.\n\n2. **Convert Your Windows Path to Unix Style**:\n   For Git Bash, your path would be `/c/Users/[YourUsername]/Anaconda3`.\n\n3. **Update Your Bash Profile**:\n   Open Git Bash and run:\n   ```bash\n   export PATH=\"/c/Users/[YourUsername]/Anaconda3:/c/Users/[YourUsername]/Anaconda3/Scripts:$PATH\"\n   ```\n   To make it permanent, add the above line to your `~/.bashrc` file and refresh it with:\n   ```bash\n   source ~/.bashrc\n   ```\n\n### For macOS and Linux\n\n1. **Open a Terminal**.\n\n2. **Find Your Anaconda Path**:\n   It's typically `~/anaconda3` or `~/opt/anaconda3`.\n\n3. **Update Your PATH**:\n   Run the following command:\n   ```bash\n   export PATH=\"/path/to/anaconda3/bin:$PATH\"\n   ```\n   Replace `/path/to/anaconda3` with your actual Anaconda installation path.\n\n4. **Make the Change Permanent**:\n   Add the export command to your `~/.bashrc` (Linux) or `~/.bash_profile` (macOS) file.\n\n5. **Reload Your Configuration**:\n   Run:\n   ```bash\n   source ~/.bashrc  # or source ~/.bash_profile\n   ```\n\nAfter completing these steps for your respective operating system, Anaconda's Python should be recognized in your PATH, allowing you to use `python`, `pip`, and other Anaconda commands seamlessly.\n\nFor further details, refer to the following resources:\n- [Windows and Git Bash PATH Configuration](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-1/131_d02af042b1_pip-is-not-recognized-as-an-internal-or-external-c.md)\n- [Linux and macOS PATH Configuration](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-1/131_d02af042b1_pip-is-not-recognized-as-an-internal-or-external-c.md)",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 5642,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 699,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T19:27:05.084391+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T19:26:41+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRjsnWAt0qLP8GyMLGEGzN1KGivaJ",
+      "finish_reason": "stop",
+      "run_id": "019d6442-e2cb-70bb-a571-1f047cb4be10",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}
