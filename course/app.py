@@ -5,9 +5,9 @@ import ingest
 import search_agent
 import logs
 
-
+st.write("VERSION: CLEAN CODE v2")
 # --- Initialization ---
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def init_agent():
     repo_owner = "DataTalksClub"
     repo_name = "faq"
@@ -39,32 +39,33 @@ for msg in st.session_state.messages:
 
 
 # --- Streaming helper ---
-def stream_response(prompt: str):
-    async def agen():
-        async with agent.run_stream(user_prompt=prompt) as result:
-            last_len = 0
-            full_text = ""
-            async for chunk in result.stream_output(debounce_by=0.01):
-                # stream only the delta
-                new_text = chunk[last_len:]
-                last_len = len(chunk)
-                full_text = chunk
-                if new_text:
-                    yield new_text
-            # log once complete
-            logs.log_interaction_to_file(agent, result.new_messages())
-            st.session_state._last_response = full_text
+# def stream_response(prompt: str):
+#     async def agen():
+#         async with agent.run_stream(user_prompt=prompt) as result:
+#             last_len = 0
+#             full_text = ""
+#             async for chunk in result.stream_output(debounce_by=0.01):
+#                 # stream only the delta
+#                 new_text = chunk[last_len:]
+#                 last_len = len(chunk)
+#                 full_text = chunk
+#                 if new_text:
+#                     yield new_text
+#             # log once complete
+#             logs.log_interaction_to_file(agent, result.new_messages())
+#             st.session_state._last_response = full_text
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    agen_obj = agen()
+#     loop = asyncio.new_event_loop()
+#     asyncio.set_event_loop(loop)
+#     agen_obj = agen()
 
-    try:
-        while True:
-            piece = loop.run_until_complete(agen_obj.__anext__())
-            yield piece
-    except StopAsyncIteration:
-        return
+#     try:
+#         while True:
+#             piece = loop.run_until_complete(agen_obj.__anext__())
+#             yield piece
+#     except StopAsyncIteration:
+#         return
+
 
 
 # --- Chat input ---
@@ -76,7 +77,9 @@ if prompt := st.chat_input("Ask your question..."):
 
     # Assistant message (streamed)
     with st.chat_message("assistant"):
-        response_text = st.write_stream(stream_response(prompt))
+        full_response = get_response(prompt)
+        st.write_stream(fake_stream(full_response))
+        response_text = st.write_stream(fake_stream(full_response))
 
     # Save full response to history
     final_text = getattr(st.session_state, "_last_response", response_text)

@@ -1,0 +1,162 @@
+{
+  "agent_name": "gh_agent",
+  "system_prompt": [
+    "\nYou are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.\n"
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "how to use kafka with python",
+          "timestamp": "2026-04-06T20:59:23.904064+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T20:59:23.904490+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6497-cf7a-7093-9c93-49898b5faa99",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "args": "{\"query\":\"Kafka Python\"}",
+          "tool_call_id": "call_mYp8XLEOiISLDhszc8MHp04C",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 208,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 14,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T20:59:26.492110+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-06T20:59:25+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRlKXFnc7nD21XOoaBg5Cf2pLDywk",
+      "finish_reason": "tool_call",
+      "run_id": "019d6497-cf7a-7093-9c93-49898b5faa99",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "content": [
+            {
+              "id": "44cc6eaa10",
+              "question": "Error while running python3 stream.py worker",
+              "sort_order": 6,
+              "content": "If you get an error while running the command `python3 stream.py worker`, follow these steps:\n\n1. Uninstall the current `kafka-python` package:\n   \n   ```bash\n   pip uninstall kafka-python\n   ```\n\n2. Install the specific version of `kafka-python`:\n\n   ```bash\n   pip install kafka-python==1.4.6\n   ```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/006_44cc6eaa10_error-while-running-python3-streampy-worker.md"
+            },
+            {
+              "id": "2763850d3e",
+              "question": "Python Kafka: Installing dependencies for python3 06-streaming/python/avro_example/producer.py",
+              "sort_order": 21,
+              "content": "To install the necessary dependencies for running `producer.py` in the `avro_example` directory, use the following commands:\n\n- Install `confluent-kafka`:\n  - Using pip:\n  ```bash\n  pip install confluent-kafka\n  ```\n  - Using conda:\n  ```bash\n  conda install conda-forge::python-confluent-kafka\n  ```\n\n- Install `fastavro`:\n  ```bash\n  pip install fastavro\n  ```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md"
+            },
+            {
+              "id": "7c3cf3b8fc",
+              "question": "How to fix the error \"ModuleNotFoundError: No module named 'kafka.vendor.six.moves'?\"",
+              "sort_order": 28,
+              "content": "According to [GitHub](https://github.com/dpkp/kafka-python/):\n\n\"DUE TO ISSUES WITH RELEASES, IT IS SUGGESTED TO USE [GitHub](https://github.com/wbarnha/kafka-python-ng) FOR THE TIME BEING.\"\n\nUse the following command to install:\n\n```bash\npip install kafka-python-ng\n```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/028_7c3cf3b8fc_how-to-fix-the-error-modulenotfounderror-no-module.md"
+            },
+            {
+              "id": "acd25600d1",
+              "question": "How to configure and run a Python script in Kestra Docker on Windows 11 without the 'Could not find or install 'Python 3.13' path' error?",
+              "sort_order": 18,
+              "content": "```yaml\ntype: io.kestra.plugin.scripts.python.Commands\ncommands:\n  - pip install requests kestra\n  - python your_script.py\nInputFiles:\n  your_script.py: |\n    # Python script content from before\n```\n\nTo use, replace `your_script.py` with your actual script filename and paste the Python code under `InputFiles`.",
+              "filename": "_questions/data-engineering-zoomcamp/module-2/018_acd25600d1_windows11-kestra-python-script.md"
+            },
+            {
+              "id": "0a441d9976",
+              "question": "ModuleNotFoundError: No module named 'avro'",
+              "sort_order": 5,
+              "content": "### Solution\n\nTo resolve the error, install the Avro module using the following command:\n\n```bash\npip install confluent-kafka[avro]\n```\n\nNote: This issue may occur because Conda does not include the Avro module when installing `confluent-kafka` via pip.\n\n### Additional Resources\n\nFor more information on Anaconda and `confluent-kafka` issues, visit the following links:\n\n- [GitHub Issue 590](https://github.com/confluentinc/confluent-kafka-python/issues/590)\n- [GitHub Issue 1221](https://github.com/confluentinc/confluent-kafka-python/issues/1221)\n- [StackOverflow Discussion](https://stackoverflow.com/questions/69085157/cannot-import-producer-from-confluent-kafka)",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/005_0a441d9976_modulenotfounderror-no-module-named-avro.md"
+            }
+          ],
+          "tool_call_id": "call_mYp8XLEOiISLDhszc8MHp04C",
+          "metadata": null,
+          "timestamp": "2026-04-06T20:59:26.524357+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T20:59:26.524991+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6497-cf7a-7093-9c93-49898b5faa99",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To use Kafka with Python, you will typically need to install a Kafka client library that allows you to produce and consume messages. Here are some steps and tips based on the relevant findings:\n\n1. **Installing Kafka-Python**:\n   You can install the `kafka-python` package, a popular library to interface with Kafka:\n   ```bash\n   pip install kafka-python\n   ```\n\n   If you run into any issues, there's an alternative package called `kafka-python-ng` that you might consider using:\n   ```bash\n   pip install kafka-python-ng\n   ```\n\n2. **Installing Confluent-Kafka**:\n   If you prefer using the `confluent-kafka` client, which offers better performance and is often recommended, install it using:\n   ```bash\n   pip install confluent-kafka\n   ```\n\n   If your application requires Avro serialization, you can install it with:\n   ```bash\n   pip install confluent-kafka[avro]\n   ```\n\n3. **Basic Usage Example**:\n   After installing the necessary libraries, here\u2019s a simple example to demonstrate how to produce and consume messages with Kafka:\n\n   **Producer Example**:\n   ```python\n   from kafka import KafkaProducer\n   import json\n\n   producer = KafkaProducer(bootstrap_servers='localhost:9092',\n                            value_serializer=lambda v: json.dumps(v).encode('utf-8'))\n\n   producer.send('my_topic', {'key': 'value'})\n   producer.flush()\n   ```\n\n   **Consumer Example**:\n   ```python\n   from kafka import KafkaConsumer\n   import json\n\n   consumer = KafkaConsumer('my_topic',\n                            bootstrap_servers='localhost:9092',\n                            auto_offset_reset='earliest',\n                            group_id='my-group',\n                            value_deserializer=lambda x: json.loads(x.decode('utf-8')))\n\n   for message in consumer:\n       print(message.value)\n   ```\n\n4. **Dependencies and Compatibility**:\n   - Make sure to check for specific issues regarding versions of libraries. For example, if you encounter `ModuleNotFoundError`, consider installing a specific version of `kafka-python`:\n     ```bash\n     pip install kafka-python==1.4.6\n     ```\n\nMake sure your Kafka cluster is running and accessible at the `bootstrap_servers` address you provide in your script. \n\nFor more detailed troubleshooting and configuration options, you can refer to the modules in the sources:\n- [Error while running python3 stream.py worker](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/006_44cc6eaa10_error-while-running-python3-streampy-worker.md)\n- [Python Kafka: Installing dependencies for python3](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md)\n- [Fixing ModuleNotFoundError](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/028_7c3cf3b8fc_how-to-fix-the-error-modulenotfounderror-no-module.md) \n\nThese resources can help address common issues and provide guidance on setting up Kafka with Python efficiently.",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1150,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 690,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T20:59:39.570997+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-06T20:59:26+00:00"
+      },
+      "provider_response_id": "chatcmpl-DRlKYP82lG0hleZ3C4bvjuLAykuE9",
+      "finish_reason": "stop",
+      "run_id": "019d6497-cf7a-7093-9c93-49898b5faa99",
+      "metadata": null
+    }
+  ],
+  "source": "user"
+}

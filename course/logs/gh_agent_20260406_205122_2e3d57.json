@@ -1,0 +1,162 @@
+{
+  "agent_name": "gh_agent",
+  "system_prompt": [
+    "\nYou are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.\n"
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "kafka",
+          "timestamp": "2026-04-06T20:51:18.672536+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-06T20:51:18.674665+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6490-67fb-762b-b19a-e8b9e2bb25b2",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "args": "{\"query\":\"kafka\"}",
+          "tool_call_id": "call_eXBfNpQDg72jWYrExBxHZCLx",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 204,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 14,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T20:51:20.619216+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "timestamp": "2026-04-06T20:51:20+00:00",
+        "finish_reason": "tool_calls"
+      },
+      "provider_response_id": "chatcmpl-DRlCiI03JPE8xnkYSAGI2QnR7PMfO",
+      "finish_reason": "tool_call",
+      "run_id": "019d6490-67fb-762b-b19a-e8b9e2bb25b2",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "search",
+          "content": [
+            {
+              "id": "2763850d3e",
+              "question": "Python Kafka: Installing dependencies for python3 06-streaming/python/avro_example/producer.py",
+              "sort_order": 21,
+              "content": "To install the necessary dependencies for running `producer.py` in the `avro_example` directory, use the following commands:\n\n- Install `confluent-kafka`:\n  - Using pip:\n  ```bash\n  pip install confluent-kafka\n  ```\n  - Using conda:\n  ```bash\n  conda install conda-forge::python-confluent-kafka\n  ```\n\n- Install `fastavro`:\n  ```bash\n  pip install fastavro\n  ```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md"
+            },
+            {
+              "id": "44cc6eaa10",
+              "question": "Error while running python3 stream.py worker",
+              "sort_order": 6,
+              "content": "If you get an error while running the command `python3 stream.py worker`, follow these steps:\n\n1. Uninstall the current `kafka-python` package:\n   \n   ```bash\n   pip uninstall kafka-python\n   ```\n\n2. Install the specific version of `kafka-python`:\n\n   ```bash\n   pip install kafka-python==1.4.6\n   ```",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/006_44cc6eaa10_error-while-running-python3-streampy-worker.md"
+            },
+            {
+              "id": "d01cbfa9cb",
+              "question": "Java Kafka: <project_name>-1.0-SNAPSHOT.jar errors: package xxx does not exist even after gradle build",
+              "sort_order": 20,
+              "content": "In my setup, all of the dependencies listed in `build.gradle` were not installed in `<project_name>-1.0-SNAPSHOT.jar`.\n\nSolution:\n\n1. In the `build.gradle` file, add the following at the end:\n   \n   ```groovy\n   shadowJar {\n       archiveBaseName = \"java-kafka-rides\"\n       archiveClassifier = ''\n   }\n   ```\n\n2. In the command line, run:\n   \n   ```bash\n   gradle shadowjar\n   ```\n\n3. Execute the script from `java-kafka-rides-1.0-SNAPSHOT.jar` created by the shadowjar.",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/020_d01cbfa9cb_java-kafka-project_name-10-snapshotjar-errors-pack.md"
+            },
+            {
+              "id": "cd8a62fc55",
+              "question": "Java Kafka: When running the producer/consumer/etc java scripts, no results retrieved or no message sent",
+              "sort_order": 24,
+              "content": "For example, when running `JsonConsumer.java`, you might see:\n\n```\nConsuming form kafka started\n\nRESULTS:::0\n\nRESULTS:::0\n\nRESULTS:::0\n```\n\nOr when running `JsonProducer.java`, you might encounter:\n\n```\nException in thread \"main\" java.util.concurrent.ExecutionException: org.apache.kafka.common.errors.SaslAuthenticationException: Authentication failed\n```\n\n**Solution:**\n\n1. Ensure the `StreamsConfig.BOOTSTRAP_SERVERS_CONFIG` in the scripts located at `src/main/java/org/example/` (e.g., `JsonConsumer.java`, `JsonProducer.java`) is pointing to the correct server URL (e.g., `europe-west3` vs `europe-west2`).\n\n2. Verify that the cluster key and secrets are updated in `src/main/java/org/example/Secrets.java` (`KAFKA_CLUSTER_KEY` and `KAFKA_CLUSTER_SECRET`).",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/024_cd8a62fc55_java-kafka-when-running-the-producerconsumeretc-ja.md"
+            },
+            {
+              "id": "cef28035ac",
+              "question": "How do you manually manage offsets in a Kafka consumer?",
+              "sort_order": 29,
+              "content": "Kafka allows you to manually control when message offsets are committed. This is useful when you want to **commit offsets only after successful message processing**, ensuring reliable processing.\n\n**Step 1: Disable Auto Commit**\n\n```python\nconsumer = KafkaConsumer(\n    'taxi-trips',\n    bootstrap_servers=['localhost:9092'],\n    enable_auto_commit=False  # Manual commit\n)\n```\n\nSetting `enable_auto_commit=False` prevents Kafka from automatically committing offsets.\n\n**Step 2: Process Messages and Commit Manually**\n\n```python\nfor message in consumer:\n    try:\n        # Process the message\n        process_trip(message.value)\n        # Commit offset after successful processing\n        consumer.commit()\n    except Exception as e:\n        print(f\"Error: {e}\")\n        # Do not commit on failure \u2192 message will be reprocessed\n```\n\nOffsets are committed **only after** the message is successfully processed. If an error occurs, the offset is not committed, so the message can be consumed again.",
+              "filename": "_questions/data-engineering-zoomcamp/module-7/029_cef28035ac_manual-offset-management-kafka-consumer.md"
+            }
+          ],
+          "tool_call_id": "call_eXBfNpQDg72jWYrExBxHZCLx",
+          "metadata": null,
+          "timestamp": "2026-04-06T20:51:20.723683+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-06T20:51:20.724188+00:00",
+      "instructions": "You are a helpful assistant that answers questions about documentation.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.\nReplace it with the full path to the GitHub repository:\n\"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d6490-67fb-762b-b19a-e8b9e2bb25b2",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "Here are some key points and solutions related to Kafka based on the course materials:\n\n1. **Installing Dependencies for Kafka in Python**:\n   - To run the `producer.py` script from the `avro_example` directory, you can install the dependencies using:\n     - **Confluent Kafka**:\n       - With pip:\n         ```bash\n         pip install confluent-kafka\n         ```\n       - With conda:\n         ```bash\n         conda install conda-forge::python-confluent-kafka\n         ```\n     - **Fastavro**:\n       ```bash\n       pip install fastavro\n       ```\n   [Installation Guide](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/021_2763850d3e_python-kafka-installing-dependencies-for-python3-0.md)\n\n2. **Error Handling While Running Python Stream**:\n   - If you encounter an error while executing `python3 stream.py worker`, uninstall the current `kafka-python` package:\n     ```bash\n     pip uninstall kafka-python\n     ```\n   - Then, install a specific version:\n     ```bash\n     pip install kafka-python==1.4.6\n     ```\n   [Error Handling](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/006_44cc6eaa10_error-while-running-python3-streampy-worker.md)\n\n3. **Java Kafka Issues**:\n   - If you face errors like `<project_name>-1.0-SNAPSHOT.jar errors: package xxx does not exist`, you can resolve it by modifying your `build.gradle` to include:\n     ```groovy\n     shadowJar {\n         archiveBaseName = \"java-kafka-rides\"\n         archiveClassifier = ''\n     }\n     ```\n     Afterward, run:\n     ```bash\n     gradle shadowjar\n     ```\n   [Java Kafka Error Resolution](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/020_d01cbfa9cb_java-kafka-project_name-10-snapshotjar-errors-pack.md)\n\n4. **Message Processing and Offset Management**:\n   - For manual offset management in a Kafka consumer:\n     - Disable auto commit:\n     ```python\n     consumer = KafkaConsumer(\n         'taxi-trips',\n         bootstrap_servers=['localhost:9092'],\n         enable_auto_commit=False  # Manual commit\n     )\n     ```\n     - After successfully processing a message, manually commit the offset:\n     ```python\n     for message in consumer:\n         try:\n             process_trip(message.value)\n             consumer.commit()  # Commit after processing\n         except Exception as e:\n             print(f\"Error: {e}\")  # Do not commit on failure\n     ```\n   [Offset Management](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-7/029_cef28035ac_manual-offset-management-kafka-consumer.md)\n\nThese resources should help you with various aspects of working with Kafka in both Python and Java environments. If you have more specific questions about Kafka, feel free to ask!",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1363,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 666,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-06T20:51:22.224403+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "timestamp": "2026-04-06T20:51:21+00:00",
+        "finish_reason": "stop"
+      },
+      "provider_response_id": "chatcmpl-DRlCjxSmc96xAe71Z9U6CP8OAqqko",
+      "finish_reason": "stop",
+      "run_id": "019d6490-67fb-762b-b19a-e8b9e2bb25b2",
+      "metadata": null
+    }
+  ],
+  "source": "user"
+}
