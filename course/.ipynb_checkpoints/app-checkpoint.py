@@ -39,26 +39,32 @@ for msg in st.session_state.messages:
 
 
 # --- Streaming helper ---
-import asyncio
-
-def stream_response(prompt):
+def stream_response(prompt: str):
     async def agen():
         async with agent.run_stream(user_prompt=prompt) as result:
-            async for chunk in result:
-                yield chunk
+            last_len = 0
+            full_text = ""
+            async for chunk in result.stream_output(debounce_by=0.01):
+                # stream only the delta
+                new_text = chunk[last_len:]
+                last_len = len(chunk)
+                full_text = chunk
+                if new_text:
+                    yield new_text
+            # log once complete
+            logs.log_interaction_to_file(agent, result.new_messages())
+            st.session_state._last_response = full_text
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-
     agen_obj = agen()
 
     try:
         while True:
-            yield loop.run_until_complete(agen_obj.__anext__())
+            piece = loop.run_until_complete(agen_obj.__anext__())
+            yield piece
     except StopAsyncIteration:
-        pass
-    finally:
-        loop.close()
+        return
 
 
 # --- Chat input ---
