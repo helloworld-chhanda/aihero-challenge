@@ -1,11 +1,22 @@
 import streamlit as st
 import asyncio
+import time
 
 import ingest
 import search_agent
 import logs
 
-st.write("VERSION: CLEAN CODE v2")
+
+# --- Page config FIRST ---
+st.set_page_config(
+    page_title="AI FAQ Assistant",
+    page_icon="🤖",
+    layout="centered"
+)
+
+st.write("VERSION: CLEAN CODE v3")
+
+
 # --- Initialization ---
 @st.cache_resource(show_spinner=False)
 def init_agent():
@@ -15,72 +26,57 @@ def init_agent():
     def filter(doc):
         return "data-engineering" in doc["filename"]
 
-    st.write("🔄 Indexing repo...")
     index = ingest.index_data(repo_owner, repo_name, filter=filter)
     agent = search_agent.init_agent(index, repo_owner, repo_name)
     return agent
 
 
-agent = init_agent()
+with st.spinner("🔄 Indexing repo..."):
+    agent = init_agent()
 
-# --- Streamlit UI ---
-st.set_page_config(page_title="AI FAQ Assistant", page_icon="🤖", layout="centered")
+
+# --- UI ---
 st.title("🤖 AI FAQ Assistant")
 st.caption("Ask me anything about the DataTalksClub/faq repository")
 
-# Initialize chat history
+
+# --- Chat history ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
 
-# --- Streaming helper ---
-# def stream_response(prompt: str):
-#     async def agen():
-#         async with agent.run_stream(user_prompt=prompt) as result:
-#             last_len = 0
-#             full_text = ""
-#             async for chunk in result.stream_output(debounce_by=0.01):
-#                 # stream only the delta
-#                 new_text = chunk[last_len:]
-#                 last_len = len(chunk)
-#                 full_text = chunk
-#                 if new_text:
-#                     yield new_text
-#             # log once complete
-#             logs.log_interaction_to_file(agent, result.new_messages())
-#             st.session_state._last_response = full_text
+# ✅ --- FUNCTIONS MUST BE HERE (before usage) ---
 
-#     loop = asyncio.new_event_loop()
-#     asyncio.set_event_loop(loop)
-#     agen_obj = agen()
+def get_response(prompt: str):
+    result = asyncio.run(agent.run(user_prompt=prompt))
+    logs.log_interaction_to_file(agent, result.new_messages())
+    return result.output
 
-#     try:
-#         while True:
-#             piece = loop.run_until_complete(agen_obj.__anext__())
-#             yield piece
-#     except StopAsyncIteration:
-#         return
 
+def fake_stream(text: str):
+    for word in text.split():
+        yield word + " "
+        time.sleep(0.02)
 
 
 # --- Chat input ---
 if prompt := st.chat_input("Ask your question..."):
+
     # User message
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Assistant message (streamed)
+    # Assistant response
     with st.chat_message("assistant"):
         full_response = get_response(prompt)
         st.write_stream(fake_stream(full_response))
-        response_text = st.write_stream(fake_stream(full_response))
 
-    # Save full response to history
-    final_text = getattr(st.session_state, "_last_response", response_text)
-    st.session_state.messages.append({"role": "assistant", "content": final_text})
+    # Save response
+    st.session_state.messages.append(
+        {"role": "assistant", "content": full_response}
+    )
